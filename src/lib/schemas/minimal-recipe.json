@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "image": {
+            "anyOf": [
+                {
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "name": {
+            "type": "string"
+        },
+        "recipeIngredient": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "recipeInstructions": {
+            "items": {
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "text"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "image",
+        "name",
+        "recipeIngredient",
+        "recipeInstructions"
+    ],
+    "type": "object"
+}
+

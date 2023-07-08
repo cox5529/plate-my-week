@@ -1,5 +1,6 @@
-<script lang="ts">
-	import '../sass/index.scss';
-</script>
+<div class="container">
+	<slot />
+</div>
 
-<slot />
+<style lang="scss" global src="../style/index.scss">
+</style>
