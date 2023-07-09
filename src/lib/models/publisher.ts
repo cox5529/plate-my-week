@@ -3,8 +3,8 @@ import { parseImages, parseStringsAsSingle, parseThing } from '../utils/schema-i
 
 export type Publisher = {
 	name: string;
-	logo?: string;
-	url?: string;
+	logo: string | null;
+	url: string | null;
 };
 
 export const parsePublisher = (
@@ -13,7 +13,9 @@ export const parsePublisher = (
 	parseThing(input, (value) => {
 		if (typeof value === 'string') {
 			return {
-				name: value
+				name: value,
+				logo: null,
+				url: null
 			};
 		}
 

@@ -1,8 +1,8 @@
-import type { ItemList, Recipe as SchemaRecipe, SchemaValue } from '../schema';
+import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../schema';
 import { parseImages, parseStrings, parseThing } from '../utils/schema-import';
 import { parseStringsAsSingle } from './../utils/schema-import';
 import { parseExternalAuthors, type ExternalAuthor } from './external-author';
-import { parseIngredients, type Ingredient } from './ingredient';
+import { parseIngredients, type Ingredient, renderIngredient } from './ingredient';
 import { parsePublisher, type Publisher } from './publisher';
 
 export type AppRecipe = {
@@ -40,7 +40,15 @@ export type MinimalRecipe = {
 	}[];
 };
 
-export const parseRecipe = (input: SchemaRecipe, externalUrl?: string): AppRecipe => {
+export type PageInfo = {
+	url: string;
+	title: string;
+	json: string[];
+};
+
+export const parseRecipe = (input: SchemaRecipe, pageInfo: PageInfo): AppRecipe => {
+	const publishers = parsePublisher(input.publisher);
+
 	const recipe: AppRecipe = {
 		id: null,
 		owner: '',
@@ -51,14 +59,22 @@ export const parseRecipe = (input: SchemaRecipe, externalUrl?: string): AppRecip
 		description: parseStringsAsSingle(input.description) ?? '',
 		headline: parseStringsAsSingle(input.name) ?? '',
 		images: parseImages(input.image),
-		publishers: parsePublisher(input.publisher),
+		publishers: publishers.length
+			? publishers
+			: [
+					{
+						name: pageInfo.title,
+						url: pageInfo.url,
+						logo: null
+					}
+			  ],
 		categories: parseStrings(input.recipeCategory),
 		cuisines: parseStrings(input.recipeCuisine),
 		externalAuthors: parseExternalAuthors(input.author),
 		ingredients: parseIngredients(input.recipeIngredient),
 		instructions: parseRecipeInstructions(input.recipeInstructions),
 		servings: parseStringsAsSingle(input.recipeYield) ?? '1',
-		externalUrl: externalUrl ?? null
+		externalUrl: pageInfo.url ?? null
 	};
 
 	return recipe;
@@ -76,3 +92,30 @@ export const parseRecipeInstructions = (
 			return parseStrings(value.text).join(' ');
 		}
 	});
+
+export const getRecipeSchemaJson = (appRecipe: AppRecipe): string => {
+	const recipe: Recipe = {
+		'@type': 'Recipe',
+		'@id': `https://plate-my-week.web.app/recipes/${appRecipe.id}`,
+		image: appRecipe.images,
+		name: appRecipe.headline,
+		headline: appRecipe.headline,
+		author: appRecipe.externalAuthors?.map((x) => ({
+			'@type': 'Person',
+			name: x.name,
+			url: x.url
+		})),
+		cookTime: appRecipe.cookTime ?? undefined,
+		datePublished: appRecipe.published,
+		description: appRecipe.description,
+		prepTime: appRecipe.prepTime ?? undefined,
+		recipeCategory: appRecipe.categories,
+		recipeCuisine: appRecipe.cuisines,
+		recipeIngredient: appRecipe.ingredients.map((x) => renderIngredient(x)),
+		recipeInstructions: appRecipe.instructions,
+		recipeYield: appRecipe.servings ?? undefined,
+		totalTime: appRecipe.totalTime ?? undefined
+	};
+
+	return JSON.stringify(recipe);
+};

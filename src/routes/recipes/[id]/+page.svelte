@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	import RecipeAttribution from '$lib/components/recipes/details/RecipeAttribution.svelte';
 	import RecipeHeader from '$lib/components/recipes/details/RecipeHeader.svelte';
 	import RecipeIngredients from '$lib/components/recipes/details/RecipeIngredients.svelte';
@@ -10,6 +12,7 @@
 
 <svelte:head>
 	<title>{data.headline} | Plate my week</title>
+	<meta name="description" content={data.description} />
 </svelte:head>
 
 <div class="row g-4">

@@ -12,13 +12,15 @@
 		<h4 class="card-title">Originally uploaded to</h4>
 	</div>
 	<div class="d-flex gap-4 align-items-center">
-		<img
-			class="object-fit-contain"
-			src={publisher.logo}
-			alt={publisher.name}
-			height="50"
-			width="100"
-		/>
+		{#if publisher.logo}
+			<img
+				class="object-fit-contain"
+				src={publisher.logo}
+				alt={publisher.name}
+				height="50"
+				width="100"
+			/>
+		{/if}
 		{#if externalUrl}
 			<a href={externalUrl}>View this recipe on {publisher.name}</a>
 		{:else}

@@ -1,8 +1,12 @@
 import type { IdReference, ImageObject, SchemaValue } from '../schema';
 
 const replacementMap: Record<string, string> = {
-	'¼': '1/4',
-	'½': '1/2',
+	'¼': ' 1/4 ',
+	'½': ' 1/2 ',
+	'¾': ' 3/4 ',
+	'&frac34;': ' 3/4 ',
+	'&frac14;': ' 1/4 ',
+	'&frac12;': ' 1/2 ',
 	'&#39': "'"
 };
 
