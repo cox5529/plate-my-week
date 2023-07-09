@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import RecipeCard from '$lib/components/recipes/RecipeCard.svelte';
+
+	export let data;
+</script>
+
+<h1>Recipes</h1>
+<div class="row">
+	{#each data.recipes as recipe}
+		<div class="col-12 col-md-6 col-lg-4 col-xl-3 d-flex flex-column">
+			<RecipeCard {recipe} />
+		</div>
+	{/each}
+</div>

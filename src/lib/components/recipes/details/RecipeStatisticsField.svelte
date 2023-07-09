@@ -2,10 +2,10 @@
 	import moment from 'moment';
 
 	export let label: string;
-	export let value: string = '';
+	export let value: string | null = null;
 	export let isDuration: boolean = false;
 
-	let displayValue = value;
+	let displayValue = value ?? '';
 	if (isDuration) {
 		const duration = moment.duration(value);
 		const hours = duration.hours();

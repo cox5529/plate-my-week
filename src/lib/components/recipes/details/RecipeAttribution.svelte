@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Publisher } from '$lib/models/publisher';
 
-	import Card from '../Card.svelte';
+	import Card from '../../Card.svelte';
 
 	export let publisher: Publisher;
 	export let externalUrl: string | null = null;

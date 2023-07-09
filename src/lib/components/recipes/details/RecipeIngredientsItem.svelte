@@ -5,9 +5,9 @@
 	export let ingredient: Ingredient;
 
 	const toFraction = (value: number): string => {
-    if (value % 1 === 0) {
-      return `${value}`;
-    }
+		if (value % 1 === 0) {
+			return `${value}`;
+		}
 
 		const maxdenom = 32;
 
@@ -19,6 +19,11 @@
 			best.numerator = numerator;
 			best.denominator = denominator;
 			best.error = error;
+		}
+
+		if (best.numerator > best.denominator) {
+			const whole = Math.floor(best.numerator / best.denominator);
+			return `${whole} ${best.numerator % best.denominator}/${best.denominator}`;
 		}
 
 		return `${best.numerator}/${best.denominator}`;

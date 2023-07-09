@@ -6,6 +6,7 @@ import { parseIngredients, type Ingredient } from './ingredient';
 import { parsePublisher, type Publisher } from './publisher';
 
 export type AppRecipe = {
+	id: string | null;
 	owner: string;
 	externalAuthors?: ExternalAuthor[];
 	cookTime: string | null;
@@ -41,6 +42,7 @@ export type MinimalRecipe = {
 
 export const parseRecipe = (input: SchemaRecipe, externalUrl?: string): AppRecipe => {
 	const recipe: AppRecipe = {
+		id: null,
 		owner: '',
 		cookTime: parseStringsAsSingle(input.cookTime),
 		prepTime: parseStringsAsSingle(input.prepTime),

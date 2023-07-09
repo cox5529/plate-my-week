@@ -3,7 +3,7 @@
 
 	import RecipeStatisticsField from './RecipeStatisticsField.svelte';
 
-	import Card from '../Card.svelte';
+	import Card from '../../Card.svelte';
 
 	export let recipe: AppRecipe;
 </script>

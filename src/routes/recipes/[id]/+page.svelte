@@ -1,9 +1,9 @@
 <script lang="ts">
-	import RecipeAttribution from '$lib/components/recipes/RecipeAttribution.svelte';
-	import RecipeHeader from '$lib/components/recipes/RecipeHeader.svelte';
-	import RecipeIngredients from '$lib/components/recipes/RecipeIngredients.svelte';
-	import RecipeStatistics from '$lib/components/recipes/RecipeStatistics.svelte';
-	import RecipeSteps from '$lib/components/recipes/RecipeSteps.svelte';
+	import RecipeAttribution from '$lib/components/recipes/details/RecipeAttribution.svelte';
+	import RecipeHeader from '$lib/components/recipes/details/RecipeHeader.svelte';
+	import RecipeIngredients from '$lib/components/recipes/details/RecipeIngredients.svelte';
+	import RecipeStatistics from '$lib/components/recipes/details/RecipeStatistics.svelte';
+	import RecipeSteps from '$lib/components/recipes/details/RecipeSteps.svelte';
 
 	export let data;
 </script>
@@ -13,13 +13,13 @@
 		<RecipeHeader recipe={data} />
 	</div>
 	<div class="col-12 col-lg-6 d-flex gap-4 flex-column">
+		<RecipeStatistics recipe={data} />
+		<RecipeIngredients ingredients={data.ingredients} />
+	</div>
+	<div class="col-12 col-lg-6 d-flex gap-4 flex-column">
 		{#each data.publishers ?? [] as publisher}
 			<RecipeAttribution {publisher} externalUrl={data.externalUrl} />
 		{/each}
 		<RecipeSteps steps={data.instructions} />
-	</div>
-	<div class="col-12 col-lg-6 d-flex gap-4 flex-column">
-		<RecipeStatistics recipe={data} />
-		<RecipeIngredients ingredients={data.ingredients} />
 	</div>
 </div>

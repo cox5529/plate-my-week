@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type { Ingredient } from '$lib/models/ingredient';
-	import { startCase } from 'lodash';
 
 	import RecipeIngredientsItem from './RecipeIngredientsItem.svelte';
 
-	import Card from '../Card.svelte';
+	import Card from '../../Card.svelte';
 
 	export let ingredients: Ingredient[];
 </script>
