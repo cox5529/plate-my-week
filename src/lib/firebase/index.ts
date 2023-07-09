@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import {
 	getFirestore,
 	type DocumentData,
-	QueryDocumentSnapshot,
+	type QueryDocumentSnapshot,
 	type FirestoreDataConverter
 } from 'firebase/firestore';
 

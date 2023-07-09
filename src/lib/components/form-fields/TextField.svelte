@@ -14,7 +14,15 @@
 	{#if label}
 		<label for={id} class="form-label">{label}</label>
 	{/if}
-	<input class="form-control" type='text' class:is-invalid={!!error} {name} {id} bind:value {required} />
+	<input
+		class="form-control"
+		type="text"
+		class:is-invalid={!!error}
+		{name}
+		{id}
+		bind:value
+		{required}
+	/>
 	{#if error}
 		<p class="invalid-feedback">{error}</p>
 	{/if}
