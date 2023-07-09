@@ -20,7 +20,8 @@ export type AppRecipe = {
 	cuisines: string[];
 	ingredients: Ingredient[];
 	instructions: string[];
-	servings?: string;
+	servings: string | null;
+	externalUrl: string | null;
 };
 
 export type MinimalRecipe = {
@@ -36,7 +37,7 @@ export type MinimalRecipe = {
 	}[];
 };
 
-export const parseRecipe = (input: SchemaRecipe): AppRecipe => {
+export const parseRecipe = (input: SchemaRecipe, externalUrl?: string): AppRecipe => {
 	const recipe: AppRecipe = {
 		owner: '',
 		cookTime: parseStringsAsSingle(input.cookTime),
@@ -52,7 +53,8 @@ export const parseRecipe = (input: SchemaRecipe): AppRecipe => {
 		externalAuthors: parseExternalAuthors(input.author),
 		ingredients: parseIngredients(input.recipeIngredient),
 		instructions: parseRecipeInstructions(input.recipeInstructions),
-		servings: parseStringsAsSingle(input.recipeYield) ?? '1'
+		servings: parseStringsAsSingle(input.recipeYield) ?? '1',
+		externalUrl: externalUrl ?? null
 	};
 
 	return recipe;

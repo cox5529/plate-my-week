@@ -3,12 +3,12 @@
 
 	import type { ActionData } from './$types';
 
-	import TextArea from '$lib/components/form-fields/TextArea.svelte';
+	import TextField from '$lib/components/form-fields/TextField.svelte';
 
 	export let form: ActionData = null;
 </script>
 
 <form method="post" use:enhance>
-	<TextArea name="json" label="Recipe JSON" value={form?.json.value} error={form?.json.error} />
+	<TextField name="url" label="Link to recipe" value={form?.url.value} error={form?.url.error} />
 	<button class="btn btn-primary" type="submit">Submit</button>
 </form>

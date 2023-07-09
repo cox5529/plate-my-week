@@ -47,7 +47,7 @@ const getQuantity = (ingredient: string): number => {
 
 		const next = tokens[i + 1];
 		let followedByUnit = false;
-		for (const unit of Object.keys(orderedUnits)) {
+		for (const [unit] of Object.values(orderedUnits)) {
 			const firstPartOfUnit = unit.split(' ')[0];
 			if (next === firstPartOfUnit) {
 				followedByUnit = true;
