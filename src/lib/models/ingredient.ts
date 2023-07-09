@@ -76,7 +76,7 @@ const getQuantityAndUnits = (ingredient: string): [number, Units] => {
 		pairs.push([quantity, Units.Unit]);
 	}
 
-	return pairs.find(([, unit]) => unit !== Units.Unit) ?? pairs[0] ?? [0, Units.Unit];
+	return pairs.find(([, unit]) => unit !== Units.Unit) ?? pairs[0] ?? [1, Units.Unit];
 };
 
 const getName = (ingredient: string, instruction: string): string => {
