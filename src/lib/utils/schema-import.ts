@@ -9,7 +9,7 @@ export const parseImages = (
 		}
 
 		if ('url' in value && value.url) {
-			return parseStringsAsSingle(value.url);
+			return parseStringsAsSingle(value.url) ?? '';
 		}
 	});
 
@@ -18,12 +18,12 @@ export const parseStrings = (input: SchemaValue<string> | undefined): string[] =
 
 export const parseStringsAsSingle = (
 	input: SchemaValue<string | IdReference> | undefined
-): string =>
+): string | null =>
 	parseThing(input, (value) => {
 		if (typeof value === 'string') {
 			return value;
 		}
-	})[0];
+	})[0] ?? null;
 
 export const parseThing = <TInput, TOutput>(
 	input: SchemaValue<TInput> | undefined,

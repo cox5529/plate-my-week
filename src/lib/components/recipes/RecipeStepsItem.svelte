@@ -4,6 +4,6 @@
 </script>
 
 <div>
-	<h6 class="mb-0">Step {index}</h6>
+	<h6 class="mb-0">Step {index + 1}</h6>
 	<p class="mt-0">{step}</p>
 </div>

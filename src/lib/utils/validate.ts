@@ -1,7 +1,8 @@
-import { Validator, type Schema } from 'jsonschema';
+import { Validator } from 'jsonschema';
+
+import type { Graph, Recipe } from '../schema';
 
 import schema from '$lib/schemas/minimal-recipe.json';
-import type { Recipe } from '../schema';
 
 export const validateRecipe = (json: string | undefined): Recipe[] | undefined => {
 	if (!json) {
@@ -10,7 +11,11 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 
 	try {
 		const validator = new Validator();
-		const content = JSON.parse(json) as Recipe | Recipe[];
+		let content = JSON.parse(json) as Recipe | Recipe[] | Graph;
+		if ('@graph' in content) {
+			content = content['@graph'].find((x) => x['@type'] === 'Recipe') as Recipe;
+		}
+
 		if (Array.isArray(content)) {
 			for (const element of content) {
 				const errors = validator.validate(element, schema).errors;
@@ -23,8 +28,13 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 			return content;
 		}
 
-		const hasErrors = validator.validate(content, schema).errors.length !== 0;
-		return hasErrors ? undefined : [content];
+		const errors = validator.validate(content, schema).errors;
+		if (errors.length > 0) {
+			console.warn(errors);
+			return undefined;
+		}
+
+		return [content];
 	} catch {
 		return;
 	}

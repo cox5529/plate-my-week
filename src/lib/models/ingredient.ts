@@ -28,68 +28,58 @@ export const parseIngredients = (input: SchemaValue<Text> | undefined): Ingredie
 			return;
 		}
 
+		const [quantity, unit] = getQuantityAndUnits(value);
+		const instruction = getInstruction(value);
 		return {
-			quantity: getQuantity(value),
-			unit: getUnit(value),
-			name: getName(value),
-			instruction: getInstruction(value)
+			quantity,
+			unit,
+			name: getName(value, instruction ?? ''),
+			instruction
 		};
 	});
 
-const getQuantity = (ingredient: string): number => {
-	ingredient = ingredient.toLowerCase();
+const getQuantityAndUnits = (ingredient: string): [number, Units] => {
+	ingredient = ingredient.toLowerCase().replace(/\(|\)/g, '');
 	const tokens = ingredient.split(' ');
-	for (let i = 0; i < tokens.length - 1; i++) {
+	const pairs: [number, Units][] = [];
+	tokenLoop: for (let i = 0; i < tokens.length - 1; i++) {
 		const token = tokens[i];
 		if (!token.match(/^[0-9\/.]+$/g)) {
 			continue;
 		}
 
-		const next = tokens[i + 1];
-		let followedByUnit = false;
-		for (const [unit] of Object.values(orderedUnits)) {
-			const firstPartOfUnit = unit.split(' ')[0];
-			if (next === firstPartOfUnit) {
-				followedByUnit = true;
-				break;
-			}
-		}
-
-		if (!followedByUnit) {
-			continue;
-		}
-
+		let quantity = 0;
 		try {
 			if (token.includes('/')) {
 				const parts = token.split('/');
 				const num = parseInt(parts[0]);
 				const den = parseInt(parts[1]);
 
-				return (num + 0.0) / den;
+				quantity = (num + 0.0) / den;
 			} else {
-				return parseFloat(token);
+				quantity = parseFloat(token);
 			}
 		} catch {
 			continue;
 		}
+
+		const next = tokens[i + 1];
+		for (const [unitKey, unit] of Object.values(orderedUnits)) {
+			const firstPartOfUnit = unitKey.split(' ')[0];
+			if (next === firstPartOfUnit) {
+				pairs.push([quantity, unit]);
+				continue tokenLoop;
+			}
+		}
+
+		pairs.push([quantity, Units.Unit]);
 	}
 
-	return 0;
+	return pairs.find(([, unit]) => unit !== Units.Unit) ?? pairs[0];
 };
 
-const getUnit = (ingredient: string): Units => {
-	const sanitizedIngredient = sanitize(ingredient);
-	const unit = orderedUnits.find(([x]) => sanitizedIngredient.includes(x));
-
-	return unit ? unit[1] : Units.Unit;
-};
-
-const getName = (ingredient: string): string => {
-	let sanitizedIngredient = sanitize(ingredient);
-
-	for (const instruction in instructions) {
-		sanitizedIngredient = sanitizedIngredient.replace(instruction, '').trim();
-	}
+const getName = (ingredient: string, instruction: string): string => {
+	let sanitizedIngredient = sanitize(ingredient).replace(instruction, '');
 
 	for (const [unit] of Object.values(orderedUnits)) {
 		sanitizedIngredient = sanitizedIngredient.replace(new RegExp(`\\b${unit}\\b`, 'g'), '').trim();
@@ -99,13 +89,18 @@ const getName = (ingredient: string): string => {
 };
 
 const getInstruction = (ingredient: string): string | null => {
+	const parenthetical = ingredient.replace(/^[^()]*\((.+?)\)[^()]*$/g, '$1');
+	if (ingredient.includes('(') && parenthetical.length) {
+		return parenthetical;
+	}
+
 	const parts = ingredient.replace(/\(.*\)/g, '').split(',');
 	if (parts.length > 1) {
 		return parts.slice(1).join(',');
 	}
 
 	let sanitizedIngredient = sanitize(ingredient);
-	for (const instruction in instructions) {
+	for (const instruction of instructions) {
 		if (sanitizedIngredient.includes(instruction)) {
 			return instruction;
 		}
@@ -118,5 +113,5 @@ const sanitize = (ingredient: string): string =>
 	ingredient
 		.toLowerCase()
 		.replace(/\(.*\)/g, '')
-		.replace(/[^a-z ]/g, '')
+		.replace(/[^a-z- ]/g, '')
 		.trim();

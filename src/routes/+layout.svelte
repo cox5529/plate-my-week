@@ -24,7 +24,7 @@
 		</div>
 	</div>
 </nav>
-<div class="container mt-4">
+<div class="container p-4">
 	<slot />
 </div>
 

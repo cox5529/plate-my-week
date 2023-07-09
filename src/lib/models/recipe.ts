@@ -8,14 +8,14 @@ import { parsePublisher, type Publisher } from './publisher';
 export type AppRecipe = {
 	owner: string;
 	externalAuthors?: ExternalAuthor[];
-	cookTime?: string;
-	prepTime?: string;
-	totalTime?: string;
+	cookTime: string | null;
+	prepTime: string | null;
+	totalTime: string | null;
 	published: string;
-	description?: string;
+	description: string;
 	headline: string;
 	images: string[];
-	publishers?: Publisher[];
+	publishers: Publisher[];
 	categories: string[];
 	cuisines: string[];
 	ingredients: Ingredient[];
@@ -26,11 +26,12 @@ export type AppRecipe = {
 
 export type MinimalRecipe = {
 	name: string;
-	image:
+	image: (
 		| string
 		| {
 				url: string;
-		  };
+		  }
+	)[];
 	recipeIngredient: string[];
 	recipeInstructions: {
 		text: string;

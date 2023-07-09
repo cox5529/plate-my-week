@@ -2,9 +2,9 @@
 export type WithContext<T extends Thing> = T & {
 	'@context': 'https://schema.org';
 };
-interface Graph {
+export interface Graph {
 	'@context': 'https://schema.org';
-	'@graph': readonly Thing[];
+	'@graph': readonly Recipe[];
 }
 export type SchemaValue<T> = T | T[];
 export type IdReference = {
