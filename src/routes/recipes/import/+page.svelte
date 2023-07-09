@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-
 	import type { ActionData } from './$types';
 
+	import Form from '$lib/components/Form.svelte';
 	import TextField from '$lib/components/form-fields/TextField.svelte';
 
 	export let form: ActionData = null;
@@ -12,7 +11,9 @@
 	<title>Import | Plate my week</title>
 </svelte:head>
 
-<form method="post" use:enhance>
+<Form>
 	<TextField name="url" label="Link to recipe" value={form?.url.value} error={form?.url.error} />
-	<button class="btn btn-primary" type="submit">Submit</button>
-</form>
+	<div>
+		<button class="btn btn-primary" type="submit">Submit</button>
+	</div>
+</Form>

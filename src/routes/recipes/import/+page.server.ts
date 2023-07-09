@@ -5,10 +5,16 @@ import { addRecipe } from '../../../lib/firebase/recipes.js';
 import { parseRecipe, type PageInfo } from '../../../lib/models/recipe.js';
 import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe.js';
 import type { Recipe } from '../../../lib/schema.js';
+import { verifyAuthentication } from '../../../lib/server/firebase/authentication.js';
 import { validateRecipes } from '../../../lib/utils/validate.js';
+
+export const load = async (event) => {
+	await verifyAuthentication(event);
+};
 
 export const actions = {
 	default: async (event) => {
+		await verifyAuthentication(event);
 		const data = await event.request.formData();
 		const url = data.get('url');
 		const response = await getRecipeJsonFromPage(url?.toString());

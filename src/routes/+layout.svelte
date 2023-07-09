@@ -1,3 +1,11 @@
+<script lang="ts">
+	import { authenticationStore } from '../stores.js';
+
+	export let data;
+
+	$: authenticationStore.set(data.authentication ? data.authentication : null);
+</script>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/">Plate my week</a>
@@ -15,11 +23,24 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="/">Home</a>
+					<a class="nav-link" aria-current="page" href="/">Home</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="/recipes/import">Import</a>
-				</li>
+				{#if $authenticationStore}
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/recipes/import">Import</a>
+					</li>
+				{/if}
+			</ul>
+			<ul class="navbar-nav mb-2 mb-lg-0">
+				{#if $authenticationStore}
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/auth/logout">Log out</a>
+					</li>
+				{:else}
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/auth/login">Login</a>
+					</li>
+				{/if}
 			</ul>
 		</div>
 	</div>
