@@ -7,8 +7,7 @@ import { auth } from '../../firebase/authentication';
 
 if (admin.apps.length === 0) {
 	admin.initializeApp({
-		projectId: env.FIREBASE_PROJECT_ID,
-		credential: admin.credential.cert(JSON.parse(atob(env.FIREBASE_PRIVATE_KEY)))
+		credential: admin.credential.cert(JSON.parse(atob(env.ADMIN_PRIVATE_KEY)))
 	});
 }
 
