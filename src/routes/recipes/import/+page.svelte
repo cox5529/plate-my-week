@@ -8,6 +8,10 @@
 	export let form: ActionData = null;
 </script>
 
+<svelte:head>
+	<title>Import | Plate my week</title>
+</svelte:head>
+
 <form method="post" use:enhance>
 	<TextField name="url" label="Link to recipe" value={form?.url.value} error={form?.url.error} />
 	<button class="btn btn-primary" type="submit">Submit</button>

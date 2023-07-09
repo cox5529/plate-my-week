@@ -8,6 +8,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>{data.headline} | Plate my week</title>
+</svelte:head>
+
 <div class="row g-4">
 	<div class="col-12 offset-lg-3 col-lg-6 d-flex gap-4 flex-column">
 		<RecipeHeader recipe={data} />

@@ -9,7 +9,9 @@
 </script>
 
 <Card>
-	<h3 class="card-title">Ingredients</h3>
+	<div slot="header" class="card-header">
+		<h3 class="card-title">Ingredients</h3>
+	</div>
 	<div class="list-group list-group-flush">
 		{#each ingredients as ingredient}
 			<RecipeIngredientsItem {ingredient} />

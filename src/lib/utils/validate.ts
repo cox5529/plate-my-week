@@ -18,6 +18,11 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 		}
 
 		if (Array.isArray(content)) {
+			content = content.filter(
+				(x) =>
+					x['@type'] === 'Recipe' ||
+					(Array.isArray(x['@type']) && x['@type'].find((t) => t === 'Recipe'))
+			);
 			for (const element of content) {
 				const errors = validator.validate(element, schema).errors;
 				if (errors.length > 0) {

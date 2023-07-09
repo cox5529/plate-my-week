@@ -10237,7 +10237,7 @@ interface RecipeBase extends HowToBase {
 	suitableForDiet?: SchemaValue<RestrictedDiet | IdReference>;
 }
 interface RecipeLeaf extends RecipeBase {
-	'@type': 'Recipe';
+	'@type': 'Recipe' | ['Recipe'];
 }
 /** A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via {@link https://schema.org/suitableForDiet suitableForDiet}. The {@link https://schema.org/keywords keywords} property can also be used to add more detail. */
 export type Recipe = RecipeLeaf;
