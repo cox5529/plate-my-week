@@ -8,6 +8,7 @@ export const getOpenAIResponse = async (
 	systemPrompt: string,
 	userPrompt: string
 ): Promise<string | undefined> => {
+	console.info(`Sending prompt to OpenAI...`);
 	const chat = await openaiService.createChatCompletion({
 		model: 'gpt-3.5-turbo',
 		messages: [

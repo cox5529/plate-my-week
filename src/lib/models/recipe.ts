@@ -60,7 +60,7 @@ export const parseRecipe = (input: SchemaRecipe, pageInfo: PageInfo): AppRecipe 
 		published: parseStringsAsSingle(input.datePublished) ?? new Date().toISOString(),
 		description: parseStringsAsSingle(input.description) ?? '',
 		headline: parseStringsAsSingle(input.name) ?? '',
-		images: parseImages(input.image),
+		images: [],
 		publishers: publishers.length
 			? publishers
 			: [
@@ -115,7 +115,8 @@ export const getRecipeSchemaJson = (appRecipe: AppRecipe): string => {
 		recipeCategory: appRecipe.categories,
 		recipeCuisine: appRecipe.cuisines,
 		recipeIngredient: appRecipe.ingredients.map((x) => renderIngredient(x)),
-		recipeInstructions: appRecipe.instructions ?? appRecipe.sections?.flatMap(x => x.instructions),
+		recipeInstructions:
+			appRecipe.instructions ?? appRecipe.sections?.flatMap((x) => x.instructions),
 		recipeYield: appRecipe.servings ?? undefined,
 		totalTime: appRecipe.totalTime ?? undefined
 	};
