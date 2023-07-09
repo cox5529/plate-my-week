@@ -3,7 +3,8 @@ import { parse } from 'node-html-parser';
 
 import { addRecipe } from '../../../lib/firebase/recipes.js';
 import { parseRecipe } from '../../../lib/models/recipe.js';
-import { validateRecipe } from '../../../lib/utils/validate.js';
+import { validateRecipes } from '../../../lib/utils/validate.js';
+import type { Recipe } from '../../../lib/schema.js';
 
 export const actions = {
 	default: async (event) => {
@@ -11,11 +12,11 @@ export const actions = {
 		const url = data.get('url');
 		const json = await getRecipeJsonFromPage(url?.toString());
 		if (!json) {
-			return fail(400, { url: { value: url, error: 'Invalid or no recipe found at that URL' } });
+			return fail(400, { url: { value: url, error: 'Invalid response from this URL' } });
 		}
 
-		const recipes = validateRecipe(json);
-		if (!recipes) {
+		const recipes = json.flatMap((x) => validateRecipes(x)).filter((x) => !!x) as Recipe[];
+		if (!recipes.length) {
 			return fail(400, { url: { value: url, error: 'Invalid or no recipe found at that URL' } });
 		}
 
@@ -29,7 +30,7 @@ export const actions = {
 	}
 };
 
-const getRecipeJsonFromPage = async (url: string | undefined): Promise<string | undefined> => {
+const getRecipeJsonFromPage = async (url: string | undefined): Promise<string[] | undefined> => {
 	if (!url) {
 		return;
 	}
@@ -41,6 +42,6 @@ const getRecipeJsonFromPage = async (url: string | undefined): Promise<string | 
 
 	const body = await response.text();
 	const html = parse(body);
-	const json = html.querySelector('script[type="application/ld+json"]');
-	return json?.innerText;
+	const json = html.querySelectorAll('script[type="application/ld+json"]').map((x) => x.innerText);
+	return json;
 };

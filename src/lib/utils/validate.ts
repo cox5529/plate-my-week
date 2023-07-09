@@ -4,13 +4,12 @@ import type { Graph, Recipe } from '../schema';
 
 import schema from '$lib/schemas/minimal-recipe.json';
 
-export const validateRecipe = (json: string | undefined): Recipe[] | undefined => {
+export const validateRecipes = (json: string | undefined): Recipe[] | undefined => {
 	if (!json) {
 		return;
 	}
 
 	try {
-		const validator = new Validator();
 		const baseContent = JSON.parse(json) as Recipe | Recipe[] | Graph;
 		let content = baseContent;
 		if ('@graph' in content) {
@@ -24,26 +23,41 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 					(Array.isArray(x['@type']) && x['@type'].find((t) => t === 'Recipe'))
 			);
 			for (const element of content) {
-				const errors = validator.validate(element, schema).errors;
-				if (errors.length > 0) {
-					console.warn(errors);
-					return undefined;
+				const [recipe, isRecipe] = validateRecipe(element);
+				if (!recipe && isRecipe) {
+					return;
 				}
 			}
 
 			return content;
 		}
 
-		const errors = validator.validate(content, schema).errors;
-		if (errors.length > 0) {
-			console.warn(errors);
-			return undefined;
+		const [recipe, isRecipe] = validateRecipe(content);
+		if (!recipe && isRecipe) {
+			return;
+		} else if (!recipe) {
+			return [];
 		}
 
-		return [content];
+		return [recipe];
 	} catch {
 		return;
 	}
+};
+
+const validateRecipe = (recipe: Recipe): [Recipe | undefined, boolean] => {
+	if (recipe['@type'] !== 'Recipe') {
+		return [undefined, false];
+	}
+
+	const validator = new Validator();
+	const errors = validator.validate(recipe, schema).errors;
+	if (errors.length > 0) {
+		console.warn(errors);
+		return [undefined, true];
+	}
+
+	return [recipe, true];
 };
 
 const getRecipe = (graph: Graph): Recipe => {
