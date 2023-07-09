@@ -41,6 +41,7 @@
 		"jsonschema": "^1.4.1",
 		"lodash": "^4.17.21",
 		"moment": "^2.29.4",
-		"node-html-parser": "^6.1.5"
+		"node-html-parser": "^6.1.5",
+		"openai": "^3.3.0"
 	}
 }

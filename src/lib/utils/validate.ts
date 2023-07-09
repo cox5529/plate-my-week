@@ -40,7 +40,8 @@ export const validateRecipes = (json: string | undefined): Recipe[] | undefined 
 		}
 
 		return [recipe];
-	} catch {
+	} catch (e) {
+		console.error(e);
 		return;
 	}
 };
@@ -69,7 +70,7 @@ const getRecipe = (graph: Graph): Recipe => {
 
 const dereferenceObjects = (parent: any, graph: Graph) => {
 	for (const key of Object.keys(parent)) {
-		if (typeof parent[key] !== 'object') {
+		if (typeof parent[key] !== 'object' || key === 'isPartOf') {
 			continue;
 		}
 

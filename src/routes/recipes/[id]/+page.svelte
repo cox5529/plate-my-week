@@ -4,6 +4,7 @@
 	import RecipeAttribution from '$lib/components/recipes/details/RecipeAttribution.svelte';
 	import RecipeHeader from '$lib/components/recipes/details/RecipeHeader.svelte';
 	import RecipeIngredients from '$lib/components/recipes/details/RecipeIngredients.svelte';
+	import RecipeSections from '$lib/components/recipes/details/RecipeSections.svelte';
 	import RecipeStatistics from '$lib/components/recipes/details/RecipeStatistics.svelte';
 	import RecipeSteps from '$lib/components/recipes/details/RecipeSteps.svelte';
 
@@ -27,6 +28,10 @@
 		{#each data.publishers ?? [] as publisher}
 			<RecipeAttribution {publisher} externalUrl={data.externalUrl} />
 		{/each}
-		<RecipeSteps steps={data.instructions} />
+		{#if data.sections}
+			<RecipeSections sections={data.sections} />
+		{:else if data.instructions}
+			<RecipeSteps steps={data.instructions} />
+		{/if}
 	</div>
 </div>

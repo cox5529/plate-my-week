@@ -3,6 +3,7 @@ import { parse } from 'node-html-parser';
 
 import { addRecipe } from '../../../lib/firebase/recipes.js';
 import { parseRecipe, type PageInfo } from '../../../lib/models/recipe.js';
+import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe.js';
 import type { Recipe } from '../../../lib/schema.js';
 import { validateRecipes } from '../../../lib/utils/validate.js';
 
@@ -23,6 +24,19 @@ export const actions = {
 		let id: string = '';
 		for (const recipe of recipes) {
 			const parsedRecipe = parseRecipe(recipe, response);
+			const rephrasedSteps = await rephraseSteps(parsedRecipe.instructions ?? []);
+			if (!rephrasedSteps) {
+				return fail(400, { url: { value: url, error: 'Failed to rephrase steps' } });
+			}
+
+			const rephrasedDescription = await rephraseDescription(parsedRecipe.description);
+			if (!rephrasedDescription) {
+				return fail(400, { url: { value: url, error: 'Failed to rephrase description' } });
+			}
+
+			parsedRecipe.description = rephrasedDescription;
+			parsedRecipe.sections = rephrasedSteps;
+
 			id = await addRecipe(parsedRecipe);
 		}
 

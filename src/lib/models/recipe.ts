@@ -3,6 +3,7 @@ import { parseImages, parseStrings, parseThing } from '../utils/schema-import';
 import { parseStringsAsSingle } from './../utils/schema-import';
 import { parseExternalAuthors, type ExternalAuthor } from './external-author';
 import { parseIngredients, type Ingredient, renderIngredient } from './ingredient';
+import type { InstructionSection } from './instruction-section';
 import { parsePublisher, type Publisher } from './publisher';
 
 export type AppRecipe = {
@@ -20,7 +21,8 @@ export type AppRecipe = {
 	categories: string[];
 	cuisines: string[];
 	ingredients: Ingredient[];
-	instructions: string[];
+	instructions: string[] | null;
+	sections: InstructionSection[] | null;
 	servings: string | null;
 	externalUrl: string | null;
 };
@@ -74,7 +76,8 @@ export const parseRecipe = (input: SchemaRecipe, pageInfo: PageInfo): AppRecipe 
 		ingredients: parseIngredients(input.recipeIngredient),
 		instructions: parseRecipeInstructions(input.recipeInstructions),
 		servings: parseStringsAsSingle(input.recipeYield) ?? '1',
-		externalUrl: pageInfo.url ?? null
+		externalUrl: pageInfo.url ?? null,
+		sections: null
 	};
 
 	return recipe;
@@ -112,7 +115,7 @@ export const getRecipeSchemaJson = (appRecipe: AppRecipe): string => {
 		recipeCategory: appRecipe.categories,
 		recipeCuisine: appRecipe.cuisines,
 		recipeIngredient: appRecipe.ingredients.map((x) => renderIngredient(x)),
-		recipeInstructions: appRecipe.instructions,
+		recipeInstructions: appRecipe.instructions ?? appRecipe.sections?.flatMap(x => x.instructions),
 		recipeYield: appRecipe.servings ?? undefined,
 		totalTime: appRecipe.totalTime ?? undefined
 	};

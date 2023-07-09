@@ -9,7 +9,7 @@
 
 <Card>
 	<div slot="header" class="card-header">
-		<h4 class="card-title">Originally uploaded to</h4>
+		<h4 class="card-title">This recipe is based on a recipe from</h4>
 	</div>
 	<div class="d-flex gap-4 align-items-center">
 		{#if publisher.logo}
