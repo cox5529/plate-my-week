@@ -11,9 +11,10 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 
 	try {
 		const validator = new Validator();
-		let content = JSON.parse(json) as Recipe | Recipe[] | Graph;
+		const baseContent = JSON.parse(json) as Recipe | Recipe[] | Graph;
+		let content = baseContent;
 		if ('@graph' in content) {
-			content = content['@graph'].find((x) => x['@type'] === 'Recipe') as Recipe;
+			content = getRecipe(baseContent as Graph) as Recipe;
 		}
 
 		if (Array.isArray(content)) {
@@ -37,5 +38,29 @@ export const validateRecipe = (json: string | undefined): Recipe[] | undefined =
 		return [content];
 	} catch {
 		return;
+	}
+};
+
+const getRecipe = (graph: Graph): Recipe => {
+	const recipe = graph['@graph'].find((x) => x['@type'] === 'Recipe')!;
+	dereferenceObjects(recipe, graph);
+
+	return recipe;
+};
+
+const dereferenceObjects = (parent: any, graph: Graph) => {
+	for (const key of Object.keys(parent)) {
+		if (typeof parent[key] !== 'object') {
+			continue;
+		}
+
+		if ('@id' in parent[key] && Object.keys(parent[key]).length === 1) {
+			const element = graph['@graph'].find((x) => x['@id'] === parent[key]['@id']);
+			parent[key] = element;
+		}
+
+		if (typeof parent[key] === 'object') {
+			dereferenceObjects(parent[key], graph);
+		}
 	}
 };

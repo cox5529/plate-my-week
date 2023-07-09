@@ -1,5 +1,5 @@
 import type { Text, SchemaValue } from '../schema';
-import { parseThing } from '../utils/schema-import';
+import { parseThing, sanitizeString } from '../utils/schema-import';
 import { UnitMap, Units, orderedUnits } from './units';
 
 export type Ingredient = {
@@ -28,6 +28,7 @@ export const parseIngredients = (input: SchemaValue<Text> | undefined): Ingredie
 			return;
 		}
 
+		value = sanitizeString(value);
 		const [quantity, unit] = getQuantityAndUnits(value);
 		const instruction = getInstruction(value);
 		return {
@@ -75,7 +76,7 @@ const getQuantityAndUnits = (ingredient: string): [number, Units] => {
 		pairs.push([quantity, Units.Unit]);
 	}
 
-	return pairs.find(([, unit]) => unit !== Units.Unit) ?? pairs[0];
+	return pairs.find(([, unit]) => unit !== Units.Unit) ?? pairs[0] ?? [0, Units.Unit];
 };
 
 const getName = (ingredient: string, instruction: string): string => {

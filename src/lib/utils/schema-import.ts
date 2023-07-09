@@ -1,5 +1,19 @@
 import type { IdReference, ImageObject, SchemaValue } from '../schema';
 
+const replacementMap: Record<string, string> = {
+	'¼': '1/4',
+	'½': '1/2',
+	'&#39': "'"
+};
+
+export const sanitizeString = (value: string): string => {
+	for (const [key, entry] of Object.entries(replacementMap)) {
+		value = value.replace(key, entry);
+	}
+
+	return value;
+};
+
 export const parseImages = (
 	input: SchemaValue<ImageObject | string | IdReference> | undefined
 ): string[] =>
@@ -14,7 +28,7 @@ export const parseImages = (
 	});
 
 export const parseStrings = (input: SchemaValue<string> | undefined): string[] =>
-	parseThing(input, (value) => value);
+	parseThing(input, sanitizeString);
 
 export const parseStringsAsSingle = (
 	input: SchemaValue<string | IdReference> | undefined

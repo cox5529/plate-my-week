@@ -24,14 +24,15 @@ export type AppRecipe = {
 	externalUrl: string | null;
 };
 
+type MinimalImage =
+	| string
+	| {
+			url: string;
+	  };
+
 export type MinimalRecipe = {
 	name: string;
-	image: (
-		| string
-		| {
-				url: string;
-		  }
-	)[];
+	image: MinimalImage | MinimalImage[];
 	recipeIngredient: string[];
 	recipeInstructions: {
 		text: string;

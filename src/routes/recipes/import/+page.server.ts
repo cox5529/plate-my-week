@@ -22,7 +22,6 @@ export const actions = {
 		let id: string = '';
 		for (const recipe of recipes) {
 			const parsedRecipe = parseRecipe(recipe, url?.toString());
-			console.log(parsedRecipe);
 			id = await addRecipe(parsedRecipe);
 		}
 

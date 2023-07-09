@@ -1,26 +1,49 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "MinimalImage": {
+            "anyOf": [
+                {
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        }
+    },
     "properties": {
         "image": {
-            "items": {
-                "anyOf": [
-                    {
-                        "properties": {
-                            "url": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "url"
-                        ],
-                        "type": "object"
+            "anyOf": [
+                {
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
                     },
-                    {
-                        "type": "string"
-                    }
-                ]
-            },
-            "type": "array"
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "items": {
+                        "$ref": "#/definitions/MinimalImage"
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "name": {
             "type": "string"
