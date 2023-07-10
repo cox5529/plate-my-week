@@ -99,7 +99,7 @@ export const parseRecipeInstructions = (
 export const getRecipeSchemaJson = (appRecipe: AppRecipe): string => {
 	const recipe: Recipe = {
 		'@type': 'Recipe',
-		'@id': `https://plate-my-week.web.app/recipes/${appRecipe.id}`,
+		'@id': `https://plate.bscox.com/recipes/${appRecipe.id}`,
 		image: appRecipe.images,
 		name: appRecipe.headline,
 		headline: appRecipe.headline,

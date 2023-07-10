@@ -19,12 +19,13 @@ export const actions = {
 
 		try {
 			const cookie = await signIn(form.data.email, form.data.password);
-			event.cookies.set('session', cookie.cookie, cookie.options);
+			event.cookies.set('__session', cookie.cookie, cookie.options);
 		} catch (e) {
 			if (e instanceof FirebaseError) {
 				return fail(401, { form });
 			}
 
+			console.error(e);
 			return fail(500, { form });
 		}
 

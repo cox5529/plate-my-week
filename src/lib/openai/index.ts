@@ -1,7 +1,8 @@
-import { env } from '$env/dynamic/private';
 import { Configuration, OpenAIApi } from 'openai';
 
-const configuration = new Configuration({ apiKey: env.OPENAI_API_KEY });
+import { getSecret } from '../server/secrets';
+
+const configuration = new Configuration({ apiKey: (await getSecret('OPENAI_API_KEY')) ?? '' });
 export const openaiService = new OpenAIApi(configuration);
 
 export const getOpenAIResponse = async (
