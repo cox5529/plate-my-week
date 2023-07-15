@@ -1,6 +1,6 @@
 import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore';
 
-import type { AppRecipe } from '../models/recipe';
+import type { AppRecipe } from '../models/entities/recipe';
 
 import { assignTypes, db } from '.';
 

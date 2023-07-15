@@ -1,9 +1,12 @@
 import { redirect, type Cookies } from '@sveltejs/kit';
 import admin from 'firebase-admin';
 import type { App } from 'firebase-admin/app';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { auth } from '../../firebase/authentication';
+import { getUser } from '../../firebase/users';
+import type { AppUser } from '../../models/entities/user';
+import type { Roles } from '../../models/enums/roles';
 import { getSecret } from '../secrets';
 
 let app: App = admin.apps.find((x) => x && x.name === '[DEFAULT]')!;
@@ -37,19 +40,46 @@ export const signIn = async (
 	};
 };
 
-export const signOut = async (request: { cookies: Cookies }): Promise<void> => {
-	const claims = await verifyAuthentication(request);
-	request.cookies.delete('__session');
-	await admin.auth(app).revokeRefreshTokens(claims.sub);
+export const forgotPassword = async (email: string): Promise<void> => {
+	await sendPasswordResetEmail(auth, email);
 };
 
-export const verifyAuthentication = async (request: { cookies: Cookies }) => {
+export const signOut = async (request: { cookies: Cookies }): Promise<void> => {
+	const claims = await isAuthenticated(request);
+	request.cookies.delete('__session');
+
+	if (claims) {
+		await admin.auth(app).revokeRefreshTokens(claims.sub);
+	}
+};
+
+export const getUserRole = async (request: { cookies: Cookies }): Promise<Roles | undefined> => {
+	const claims = await isAuthenticated(request);
+	if (!claims) {
+		return;
+	}
+
+	const user = await getUser(claims.sub);
+	return user?.role;
+};
+
+export const verifyAuthentication = async (
+	request: { cookies: Cookies },
+	roles?: Roles[]
+): Promise<AppUser> => {
 	const authenticated = await isAuthenticated(request);
 	if (!authenticated) {
+		console.warn('User is not currently authenticated');
 		throw redirect(302, '/');
 	}
 
-	return authenticated;
+	const user = await getUser(authenticated.sub);
+	if (!user || (roles && !roles.find((x) => x == user.role))) {
+		console.warn(`User ${authenticated.email} is not authorized with roles [${roles?.join(', ')}]`);
+		throw redirect(302, '/');
+	}
+
+	return user;
 };
 
 export const isAuthenticated = async (request: { cookies: Cookies }) => {

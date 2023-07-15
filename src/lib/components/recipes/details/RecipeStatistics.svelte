@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AppRecipe } from '$lib/models/recipe';
+	import type { AppRecipe } from '$lib/models/entities/recipe';
 
 	import RecipeStatisticsField from './RecipeStatisticsField.svelte';
 

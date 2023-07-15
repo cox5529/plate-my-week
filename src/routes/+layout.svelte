@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { authenticationStore } from '../stores.js';
+	import { Roles } from '$lib/models/enums/roles.js';
+	import { authenticationStore, roleStore } from '../stores.js';
 
 	export let data;
 
 	$: authenticationStore.set(data.authentication ? data.authentication : null);
+	$: roleStore.set(data.role ? data.role : null);
 </script>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -25,7 +27,7 @@
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/">Home</a>
 				</li>
-				{#if $authenticationStore}
+				{#if $roleStore === Roles.Administrator}
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="/recipes/import">Import</a>
 					</li>

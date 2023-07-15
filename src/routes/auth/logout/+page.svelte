@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { authenticationStore } from '../../../stores';
+	import { authenticationStore, roleStore } from '../../../stores';
 
 	onMount(() => {
-    authenticationStore.set(null);
-    window.location.href = '/';
-  });
-  console.log('logout')
+		authenticationStore.set(null);
+		roleStore.set(null);
+		window.location.href = '/';
+	});
+	console.log('logout');
 </script>
 
 Logging you out...

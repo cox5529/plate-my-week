@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { FirebaseError } from 'firebase/app';
-import { superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 
 import { signIn } from '../../../lib/server/firebase/authentication';
@@ -11,18 +11,18 @@ const schema = z.object({
 });
 
 export const actions = {
-	default: async (event) => {
-		const form = await superValidate(event.request, schema);
+	default: async ({ request, cookies }) => {
+		const form = await superValidate(request, schema);
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 
 		try {
 			const cookie = await signIn(form.data.email, form.data.password);
-			event.cookies.set('__session', cookie.cookie, cookie.options);
+			cookies.set('__session', cookie.cookie, cookie.options);
 		} catch (e) {
 			if (e instanceof FirebaseError) {
-				return fail(401, { form });
+				return message(form, 'Invalid email or password', { status: 401 });
 			}
 
 			console.error(e);

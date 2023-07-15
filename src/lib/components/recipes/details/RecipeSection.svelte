@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { InstructionSection } from '$lib/models/instruction-section';
+	import type { InstructionSection } from '$lib/models/entities/instruction-section';
 
 	import RecipeStepsItem from './RecipeStepsItem.svelte';
 

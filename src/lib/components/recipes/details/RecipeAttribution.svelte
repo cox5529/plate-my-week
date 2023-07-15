@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Publisher } from '$lib/models/publisher';
+	import type { Publisher } from '$lib/models/entities/publisher';
 
 	import Card from '../../Card.svelte';
 

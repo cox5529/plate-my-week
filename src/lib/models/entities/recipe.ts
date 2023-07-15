@@ -1,14 +1,17 @@
-import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../schema';
-import { parseImages, parseStrings, parseThing } from '../utils/schema-import';
-import { parseStringsAsSingle } from './../utils/schema-import';
+import type { DocumentReference } from 'firebase/firestore';
+
+import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../../schema';
+import { parseStrings, parseThing } from '../../utils/schema-import';
+import { parseStringsAsSingle } from './../../utils/schema-import';
 import { parseExternalAuthors, type ExternalAuthor } from './external-author';
 import { parseIngredients, type Ingredient, renderIngredient } from './ingredient';
 import type { InstructionSection } from './instruction-section';
 import { parsePublisher, type Publisher } from './publisher';
+import type { AppUser } from './user';
 
 export type AppRecipe = {
 	id: string | null;
-	owner: string;
+	owner: DocumentReference<AppUser> | null;
 	externalAuthors?: ExternalAuthor[];
 	cookTime: string | null;
 	prepTime: string | null;
@@ -53,7 +56,7 @@ export const parseRecipe = (input: SchemaRecipe, pageInfo: PageInfo): AppRecipe 
 
 	const recipe: AppRecipe = {
 		id: null,
-		owner: '',
+		owner: null,
 		cookTime: parseStringsAsSingle(input.cookTime),
 		prepTime: parseStringsAsSingle(input.prepTime),
 		totalTime: parseStringsAsSingle(input.totalTime),
@@ -103,11 +106,12 @@ export const getRecipeSchemaJson = (appRecipe: AppRecipe): string => {
 		image: appRecipe.images,
 		name: appRecipe.headline,
 		headline: appRecipe.headline,
-		author: appRecipe.externalAuthors?.map((x) => ({
-			'@type': 'Person',
-			name: x.name,
-			url: x.url
-		})),
+		author:
+			appRecipe.externalAuthors?.map((x) => ({
+				'@type': 'Person',
+				name: x.name,
+				url: x.url
+			})) ?? undefined,
 		cookTime: appRecipe.cookTime ?? undefined,
 		datePublished: appRecipe.published,
 		description: appRecipe.description,

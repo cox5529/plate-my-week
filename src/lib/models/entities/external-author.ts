@@ -1,9 +1,9 @@
-import type { IdReference, Organization, Person, SchemaValue } from '../schema';
-import { parseStringsAsSingle, parseThing } from '../utils/schema-import';
+import type { IdReference, Organization, Person, SchemaValue } from '../../schema';
+import { parseStringsAsSingle, parseThing } from '../../utils/schema-import';
 
 export type ExternalAuthor = {
 	name: string;
-	url?: string;
+	url: string | null;
 };
 
 export const parseExternalAuthors = (
@@ -12,7 +12,8 @@ export const parseExternalAuthors = (
 	parseThing(input, (value) => {
 		if (typeof value === 'string') {
 			return {
-				name: value
+				name: value,
+				url: null
 			};
 		}
 

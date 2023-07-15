@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ingredient } from '$lib/models/ingredient';
+	import type { Ingredient } from '$lib/models/entities/ingredient';
 
 	import RecipeIngredientsItem from './RecipeIngredientsItem.svelte';
 

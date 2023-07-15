@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { renderIngredient, type Ingredient } from '$lib/models/ingredient';
-	import { PluralUnitMap, SingularUnitMap, Units } from '$lib/models/units';
+	import { renderIngredient, type Ingredient } from '$lib/models/entities/ingredient';
 
 	export let ingredient: Ingredient;
 

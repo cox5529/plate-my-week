@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
 
+	import FormButton from '$lib/components/buttons/FormButton.svelte';
 	import EmailField from '$lib/components/form-fields/EmailField.svelte';
 	import PasswordField from '$lib/components/form-fields/PasswordField.svelte';
 
 	export let data;
 
-	const { form, errors, constraints, enhance } = superForm(data.form, { taintedMessage: null });
+	const { form, errors, constraints, enhance, submitting, message } = superForm(data.form, {
+		taintedMessage: null
+	});
 </script>
 
 <svelte:head>
@@ -30,6 +33,10 @@
 		constraints={$constraints}
 	/>
 	<div>
-		<button class="btn btn-primary" type="submit">Submit</button>
+		<FormButton color="primary" type="submit" submitting={$submitting}>Submit</FormButton>
+		<a class="btn btn-secondary" href="/auth/forgot-password">Forgot password?</a>
 	</div>
+	{#if $message}
+		<p class='text-danger'>{$message}</p>
+	{/if}
 </form>

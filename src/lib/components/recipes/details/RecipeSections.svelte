@@ -1,9 +1,9 @@
 <script lang="ts">
-	import RecipeStepsItem from './RecipeStepsItem.svelte';
+	import type { InstructionSection } from '$lib/models/entities/instruction-section';
+
+	import RecipeSection from './RecipeSection.svelte';
 
 	import Card from '$lib/components/Card.svelte';
-	import type { InstructionSection } from '$lib/models/instruction-section';
-	import RecipeSection from './RecipeSection.svelte';
 
 	export let sections: InstructionSection[];
 </script>

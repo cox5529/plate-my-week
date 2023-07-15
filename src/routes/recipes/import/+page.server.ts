@@ -1,20 +1,24 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { doc } from 'firebase/firestore';
 import { parse } from 'node-html-parser';
 
-import { addRecipe } from '../../../lib/firebase/recipes.js';
-import { parseRecipe, type PageInfo } from '../../../lib/models/recipe.js';
-import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe.js';
-import type { Recipe } from '../../../lib/schema.js';
-import { verifyAuthentication } from '../../../lib/server/firebase/authentication.js';
-import { validateRecipes } from '../../../lib/utils/validate.js';
+import { addRecipe } from '../../../lib/firebase/recipes';
+import { usersCollection } from '../../../lib/firebase/users';
+import { parseRecipe, type PageInfo } from '../../../lib/models/entities/recipe';
+import { Roles } from '../../../lib/models/enums/roles';
+import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe';
+import type { Recipe } from '../../../lib/schema';
+import { verifyAuthentication } from '../../../lib/server/firebase/authentication';
+import { validateRecipes } from '../../../lib/utils/validate';
 
 export const load = async (event) => {
-	await verifyAuthentication(event);
+	await verifyAuthentication(event, [Roles.Administrator]);
 };
 
 export const actions = {
 	default: async (event) => {
-		await verifyAuthentication(event);
+		const userInfo = await verifyAuthentication(event, [Roles.Administrator]);
+
 		const data = await event.request.formData();
 		const url = data.get('url');
 		const response = await getRecipeJsonFromPage(url?.toString());
@@ -42,6 +46,7 @@ export const actions = {
 
 			parsedRecipe.description = rephrasedDescription;
 			parsedRecipe.sections = rephrasedSteps;
+			parsedRecipe.owner = doc(usersCollection, userInfo.sub);
 
 			id = await addRecipe(parsedRecipe);
 		}

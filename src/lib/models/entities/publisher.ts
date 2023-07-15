@@ -1,5 +1,5 @@
-import type { IdReference, Organization, Person, SchemaValue } from '../schema';
-import { parseImages, parseStringsAsSingle, parseThing } from '../utils/schema-import';
+import type { IdReference, Organization, Person, SchemaValue } from '../../schema';
+import { parseImages, parseStringsAsSingle, parseThing } from '../../utils/schema-import';
 
 export type Publisher = {
 	name: string;

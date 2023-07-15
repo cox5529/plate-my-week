@@ -1,6 +1,6 @@
-import type { Text, SchemaValue } from '../schema';
-import { parseThing, sanitizeString } from '../utils/schema-import';
-import { PluralUnitMap, SingularUnitMap, UnitMap, Units, orderedUnits } from './units';
+import type { Text, SchemaValue } from '../../schema';
+import { parseThing, sanitizeString } from '../../utils/schema-import';
+import { PluralUnitMap, SingularUnitMap, UnitMap, Units, orderedUnits } from '../enums/units';
 
 export type Ingredient = {
 	quantity: number;
