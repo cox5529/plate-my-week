@@ -25,6 +25,7 @@ export const actions = {
 			cookies.set('__session', cookie.cookie, cookie.options);
 		} catch (e) {
 			if (e instanceof FirebaseError) {
+				console.warn(e);
 				return message(form, 'Invalid email or password', { status: 401 });
 			}
 

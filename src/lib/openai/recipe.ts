@@ -1,4 +1,4 @@
-import type { InstructionSection } from '../models/instruction-section';
+import type { InstructionSection } from '../models/entities/instruction-section';
 
 import { getOpenAIResponse, getOpenAITypedResponse } from '.';
 

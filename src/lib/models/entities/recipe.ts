@@ -1,5 +1,5 @@
-import type { DocumentReference } from 'firebase/firestore';
 
+import type { DocumentReference } from 'firebase-admin/firestore';
 import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../../schema';
 import { parseStrings, parseThing } from '../../utils/schema-import';
 import { parseStringsAsSingle } from './../../utils/schema-import';

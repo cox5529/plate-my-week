@@ -41,7 +41,7 @@ export const register = async (
 	displayName: string
 ): Promise<void> => {
 	const credential = await createUserWithEmailAndPassword(auth, email, password);
-	await setDoc(doc(usersCollection, credential.user.uid), {
+	await usersCollection.doc(credential.user.uid).set({
 		id: credential.user.uid,
 		role: Roles.User,
 		name: displayName
