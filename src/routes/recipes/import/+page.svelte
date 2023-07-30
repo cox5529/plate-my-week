@@ -1,19 +1,29 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import { superForm } from 'sveltekit-superforms/client';
 
-	import Form from '$lib/components/Form.svelte';
+	import FormButton from '$lib/components/buttons/FormButton.svelte';
 	import TextField from '$lib/components/form-fields/TextField.svelte';
 
-	export let form: ActionData = null;
+	export let data;
+
+	const { form, errors, constraints, enhance, submitting } = superForm(data.form, {
+		taintedMessage: null
+	});
 </script>
 
 <svelte:head>
 	<title>Import | Plate my week</title>
 </svelte:head>
 
-<Form>
-	<TextField name="url" label="Link to recipe" value={form?.url.value} error={form?.url.error} />
+<form class="d-flex flex-column gap-4" method={'post'} use:enhance>
+	<TextField
+		name="url"
+		label="Link to recipe"
+		bind:value={$form.url}
+		errors={$errors}
+		constraints={$constraints}
+	/>
 	<div>
-		<button class="btn btn-primary" type="submit">Submit</button>
+		<FormButton color="primary" type="submit" submitting={$submitting}>Submit</FormButton>
 	</div>
-</Form>
+</form>

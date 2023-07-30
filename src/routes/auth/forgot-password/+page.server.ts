@@ -1,9 +1,8 @@
-import { fail, json, redirect } from '@sveltejs/kit';
-import { FirebaseError } from 'firebase/app';
+import { fail } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 
-import { forgotPassword, signIn } from '../../../lib/server/firebase/authentication';
+import { forgotPassword } from '../../../lib/server/firebase/authentication';
 
 const schema = z.object({
 	email: z.string().email().nonempty()
@@ -21,7 +20,7 @@ export const actions = {
 	}
 };
 
-export const load = async (event) => {
+export const load = async () => {
 	const form = await superValidate(schema);
 	return { form };
 };
