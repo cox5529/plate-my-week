@@ -3,13 +3,13 @@ import { doc } from 'firebase/firestore';
 import { parse } from 'node-html-parser';
 
 import { addRecipe } from '../../../lib/server/firebase/recipes';
-import { usersCollection } from '../../../lib/firebase/users';
 import { parseRecipe, type PageInfo } from '../../../lib/models/entities/recipe';
 import { Roles } from '../../../lib/models/enums/roles';
 import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe';
 import type { Recipe } from '../../../lib/schema';
 import { verifyAuthentication } from '../../../lib/server/firebase/authentication';
 import { validateRecipes } from '../../../lib/utils/validate';
+import { getUser, usersCollection } from '../../../lib/server/firebase/users';
 
 export const load = async (event) => {
 	await verifyAuthentication(event, [Roles.Administrator]);
@@ -46,7 +46,7 @@ export const actions = {
 
 			parsedRecipe.description = rephrasedDescription;
 			parsedRecipe.sections = rephrasedSteps;
-			parsedRecipe.owner = doc(usersCollection, userInfo.sub);
+			parsedRecipe.owner = usersCollection.doc(userInfo.id);
 
 			id = await addRecipe(parsedRecipe);
 		}
