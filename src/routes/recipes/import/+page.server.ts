@@ -1,15 +1,14 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { doc } from 'firebase/firestore';
 import { parse } from 'node-html-parser';
 
-import { addRecipe } from '../../../lib/server/firebase/recipes';
 import { parseRecipe, type PageInfo } from '../../../lib/models/entities/recipe';
 import { Roles } from '../../../lib/models/enums/roles';
 import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe';
 import type { Recipe } from '../../../lib/schema';
 import { verifyAuthentication } from '../../../lib/server/firebase/authentication';
+import { addRecipe } from '../../../lib/server/firebase/recipes';
+import { usersCollection } from '../../../lib/server/firebase/users';
 import { validateRecipes } from '../../../lib/utils/validate';
-import { getUser, usersCollection } from '../../../lib/server/firebase/users';
 
 export const load = async (event) => {
 	await verifyAuthentication(event, [Roles.Administrator]);

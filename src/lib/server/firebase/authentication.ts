@@ -4,7 +4,6 @@ import {
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword
 } from 'firebase/auth';
-import { addDoc, doc, setDoc } from 'firebase/firestore';
 
 import { auth } from '../../firebase/authentication';
 import type { AppUser } from '../../models/entities/user';
