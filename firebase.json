@@ -1,21 +1,13 @@
 {
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "us-central1",
-      "secrets": [
-        "ADMIN_PRIVATE_KEY",
-        "ENVIRONMENT",
-        "OPENAI_API_KEY"
-      ]
-    }
-  },
-  "storage": {
-    "rules": "storage.rules"
-  }
+	"hosting": {
+		"source": ".",
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"frameworksBackend": {
+			"region": "us-central1",
+			"secrets": ["ADMIN_PRIVATE_KEY", "ENVIRONMENT", "OPENAI_API_KEY"]
+		}
+	},
+	"storage": {
+		"rules": "storage.rules"
+	}
 }

@@ -5,7 +5,9 @@
 
 	export let data;
 
-	const { form, errors, constraints, enhance, message } = superForm(data.form, { taintedMessage: null });
+	const { form, errors, constraints, enhance, message } = superForm(data.form, {
+		taintedMessage: null
+	});
 </script>
 
 <svelte:head>
@@ -25,7 +27,7 @@
 		<button class="btn btn-primary" type="submit">Submit</button>
 		<a class="btn btn-secondary" href="/auth/login">Cancel</a>
 	</div>
-  {#if $message}
-    <p>$message</p>
-  {/if}
+	{#if $message}
+		<p>$message</p>
+	{/if}
 </form>

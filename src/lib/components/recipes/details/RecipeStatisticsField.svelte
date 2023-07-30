@@ -14,10 +14,10 @@
 		if (hours === 0) {
 			displayValue = `${minutes} minutes`;
 		} else if (minutes === 0) {
-      displayValue = `${hours} hours`
-    } else {
-      displayValue = `${hours} hrs ${minutes} mins`
-    }
+			displayValue = `${hours} hours`;
+		} else {
+			displayValue = `${hours} hrs ${minutes} mins`;
+		}
 	}
 </script>
 

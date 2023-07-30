@@ -1,80 +1,68 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "MinimalImage": {
-            "anyOf": [
-                {
-                    "properties": {
-                        "url": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "url"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "type": "string"
-                }
-            ]
-        }
-    },
-    "properties": {
-        "image": {
-            "anyOf": [
-                {
-                    "properties": {
-                        "url": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "url"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "items": {
-                        "$ref": "#/definitions/MinimalImage"
-                    },
-                    "type": "array"
-                },
-                {
-                    "type": "string"
-                }
-            ]
-        },
-        "name": {
-            "type": "string"
-        },
-        "recipeIngredient": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
-        },
-        "recipeInstructions": {
-            "items": {
-                "properties": {
-                    "text": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "text"
-                ],
-                "type": "object"
-            },
-            "type": "array"
-        }
-    },
-    "required": [
-        "image",
-        "name",
-        "recipeIngredient",
-        "recipeInstructions"
-    ],
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"definitions": {
+		"MinimalImage": {
+			"anyOf": [
+				{
+					"properties": {
+						"url": {
+							"type": "string"
+						}
+					},
+					"required": ["url"],
+					"type": "object"
+				},
+				{
+					"type": "string"
+				}
+			]
+		}
+	},
+	"properties": {
+		"image": {
+			"anyOf": [
+				{
+					"properties": {
+						"url": {
+							"type": "string"
+						}
+					},
+					"required": ["url"],
+					"type": "object"
+				},
+				{
+					"items": {
+						"$ref": "#/definitions/MinimalImage"
+					},
+					"type": "array"
+				},
+				{
+					"type": "string"
+				}
+			]
+		},
+		"name": {
+			"type": "string"
+		},
+		"recipeIngredient": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"recipeInstructions": {
+			"items": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": ["text"],
+				"type": "object"
+			},
+			"type": "array"
+		}
+	},
+	"required": ["image", "name", "recipeIngredient", "recipeInstructions"],
+	"type": "object"
 }
-

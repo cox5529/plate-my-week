@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { doc } from 'firebase/firestore';
 import { parse } from 'node-html-parser';
 
-import { addRecipe } from '../../../lib/firebase/recipes';
+import { addRecipe } from '../../../lib/server/firebase/recipes';
 import { usersCollection } from '../../../lib/firebase/users';
 import { parseRecipe, type PageInfo } from '../../../lib/models/entities/recipe';
 import { Roles } from '../../../lib/models/enums/roles';

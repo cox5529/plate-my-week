@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { forgotPassword, signIn } from '../../../lib/server/firebase/authentication';
 
 const schema = z.object({
-	email: z.string().email().nonempty(),
+	email: z.string().email().nonempty()
 });
 
 export const actions = {
@@ -17,7 +17,7 @@ export const actions = {
 		}
 
 		await forgotPassword(form.data.email);
-    return message(form, 'Check your email for a link to reset your password');
+		return message(form, 'Check your email for a link to reset your password');
 	}
 };
 

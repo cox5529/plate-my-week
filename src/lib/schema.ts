@@ -12,7 +12,12 @@ export type IdReference = {
 	'@id': string;
 };
 /** Boolean: True or False. */
-export type Boolean = 'https://schema.org/False' | 'False' | 'https://schema.org/True' | 'True' | boolean;
+export type Boolean =
+	| 'https://schema.org/False'
+	| 'False'
+	| 'https://schema.org/True'
+	| 'True'
+	| boolean;
 /** A date value in {@link http://en.wikipedia.org/wiki/ISO_8601 ISO 8601 date format}. */
 export type Date = string;
 /** A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601). */
@@ -80,10 +85,10 @@ export type PerformanceRoleLeaf<TContent, TProperty extends string> = Performanc
 	[key in TProperty]: TContent;
 };
 /** A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc. */
-export type PerformanceRole<TContent = never, TProperty extends string = never> = PerformanceRoleLeaf<
-	TContent,
-	TProperty
->;
+export type PerformanceRole<
+	TContent = never,
+	TProperty extends string = never
+> = PerformanceRoleLeaf<TContent, TProperty>;
 interface RoleBase extends ThingBase {
 	/** The end date and time of the item (in {@link http://en.wikipedia.org/wiki/ISO_8601 ISO 8601 date format}). */
 	endDate?: SchemaValue<Date | DateTime>;
@@ -183,7 +188,14 @@ interface AccommodationLeaf extends AccommodationBase {
  *
  * See also the {@link /docs/hotels.html dedicated document on the use of schema.org for marking up hotels and other forms of accommodations}.
  */
-export type Accommodation = AccommodationLeaf | Apartment | CampingPitch | House | Room | Suite | string;
+export type Accommodation =
+	| AccommodationLeaf
+	| Apartment
+	| CampingPitch
+	| House
+	| Room
+	| Suite
+	| string;
 interface AccountingServiceLeaf extends FinancialServiceBase {
 	'@type': 'AccountingService';
 }
@@ -317,7 +329,13 @@ interface AdministrativeAreaLeaf extends PlaceBase {
 	'@type': 'AdministrativeArea';
 }
 /** A geographical region, typically under the jurisdiction of a particular government. */
-export type AdministrativeArea = AdministrativeAreaLeaf | City | Country | SchoolDistrict | State | string;
+export type AdministrativeArea =
+	| AdministrativeAreaLeaf
+	| City
+	| Country
+	| SchoolDistrict
+	| State
+	| string;
 interface AdultEntertainmentLeaf extends LocalBusinessBase {
 	'@type': 'AdultEntertainment';
 }
@@ -724,7 +742,12 @@ interface AssessActionLeaf extends ActionBase {
 	'@type': 'AssessAction';
 }
 /** The act of forming one's opinion, reaction or sentiment. */
-export type AssessAction = AssessActionLeaf | ChooseAction | IgnoreAction | ReactAction | ReviewAction;
+export type AssessAction =
+	| AssessActionLeaf
+	| ChooseAction
+	| IgnoreAction
+	| ReactAction
+	| ReviewAction;
 interface AssignActionLeaf extends ActionBase {
 	'@type': 'AssignAction';
 }
@@ -971,7 +994,12 @@ interface BioChemEntityLeaf extends BioChemEntityBase {
 	'@type': 'BioChemEntity';
 }
 /** Any biological, chemical, or biochemical thing. For example: a protein; a gene; a chemical; a synthetic chemical. */
-export type BioChemEntity = BioChemEntityLeaf | ChemicalSubstance | Gene | MolecularEntity | Protein;
+export type BioChemEntity =
+	| BioChemEntityLeaf
+	| ChemicalSubstance
+	| Gene
+	| MolecularEntity
+	| Protein;
 interface BlogBase extends CreativeWorkBase {
 	/** A posting that is part of this blog. */
 	blogPost?: SchemaValue<BlogPosting | IdReference>;
@@ -3597,7 +3625,12 @@ interface EmergencyServiceLeaf extends LocalBusinessBase {
 	'@type': 'EmergencyService';
 }
 /** An emergency service, such as a fire station or ER. */
-export type EmergencyService = EmergencyServiceLeaf | FireStation | Hospital | PoliceStation | string;
+export type EmergencyService =
+	| EmergencyServiceLeaf
+	| FireStation
+	| Hospital
+	| PoliceStation
+	| string;
 interface EmployerAggregateRatingLeaf extends AggregateRatingBase {
 	'@type': 'EmployerAggregateRating';
 }
@@ -5836,7 +5869,13 @@ interface ListItemLeaf extends ListItemBase {
 	'@type': 'ListItem';
 }
 /** An list item, e.g. a step in a checklist or how-to description. */
-export type ListItem = ListItemLeaf | HowToDirection | HowToItem | HowToSection | HowToStep | HowToTip;
+export type ListItem =
+	| ListItemLeaf
+	| HowToDirection
+	| HowToItem
+	| HowToSection
+	| HowToStep
+	| HowToTip;
 interface LiteraryEventLeaf extends EventBase {
 	'@type': 'LiteraryEvent';
 }
@@ -6641,7 +6680,10 @@ interface MedicalRiskEstimatorLeaf extends MedicalRiskEstimatorBase {
 	'@type': 'MedicalRiskEstimator';
 }
 /** Any rule set or interactive tool for estimating the risk of developing a complication or condition. */
-export type MedicalRiskEstimator = MedicalRiskEstimatorLeaf | MedicalRiskCalculator | MedicalRiskScore;
+export type MedicalRiskEstimator =
+	| MedicalRiskEstimatorLeaf
+	| MedicalRiskCalculator
+	| MedicalRiskScore;
 interface MedicalRiskFactorBase extends MedicalEntityBase {
 	/** The condition, complication, etc. influenced by this factor. */
 	increasesRiskOf?: SchemaValue<MedicalEntity | IdReference>;
@@ -6844,7 +6886,12 @@ interface MedicalTestLeaf extends MedicalTestBase {
 	'@type': 'MedicalTest';
 }
 /** Any medical test, typically performed for diagnostic purposes. */
-export type MedicalTest = MedicalTestLeaf | BloodTest | ImagingTest | MedicalTestPanel | PathologyTest;
+export type MedicalTest =
+	| MedicalTestLeaf
+	| BloodTest
+	| ImagingTest
+	| MedicalTestPanel
+	| PathologyTest;
 interface MedicalTestPanelBase extends MedicalTestBase {
 	/** A component test of the panel. */
 	subTest?: SchemaValue<MedicalTest | IdReference>;
@@ -10005,7 +10052,9 @@ interface QuantitativeValueDistributionLeaf extends QuantitativeValueDistributio
 	'@type': 'QuantitativeValueDistribution';
 }
 /** A statistical distribution of values. */
-export type QuantitativeValueDistribution = QuantitativeValueDistributionLeaf | MonetaryAmountDistribution;
+export type QuantitativeValueDistribution =
+	| QuantitativeValueDistributionLeaf
+	| MonetaryAmountDistribution;
 interface QuantityLeaf extends ThingBase {
 	'@type': 'Quantity';
 }
@@ -11217,7 +11266,11 @@ interface SoftwareApplicationLeaf extends SoftwareApplicationBase {
 	'@type': 'SoftwareApplication';
 }
 /** A software application. */
-export type SoftwareApplication = SoftwareApplicationLeaf | MobileApplication | VideoGame | WebApplication;
+export type SoftwareApplication =
+	| SoftwareApplicationLeaf
+	| MobileApplication
+	| VideoGame
+	| WebApplication;
 interface SoftwareSourceCodeBase extends CreativeWorkBase {
 	/** Link to the repository where the un-compiled, human readable code and related code is located (SVN, GitHub, CodePlex). */
 	codeRepository?: SchemaValue<URL>;
@@ -11737,7 +11790,10 @@ interface TherapeuticProcedureLeaf extends TherapeuticProcedureBase {
 	'@type': 'TherapeuticProcedure';
 }
 /** A medical procedure intended primarily for therapeutic purposes, aimed at improving a health condition. */
-export type TherapeuticProcedure = TherapeuticProcedureLeaf | MedicalTherapy | PsychologicalTreatment;
+export type TherapeuticProcedure =
+	| TherapeuticProcedureLeaf
+	| MedicalTherapy
+	| PsychologicalTreatment;
 interface ThesisBase extends CreativeWorkBase {
 	/** Qualification, candidature, degree, application that Thesis supports. */
 	inSupportOf?: SchemaValue<Text>;

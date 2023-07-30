@@ -1,13 +1,18 @@
 <script lang="ts">
 	import uniqueId from 'lodash/uniqueId';
+	import type { InputConstraints, ValidationErrors } from 'sveltekit-superforms';
+	import type { AnyZodObject } from 'zod';
 
+	export let constraints: InputConstraints<AnyZodObject>;
+	export let errors: ValidationErrors<AnyZodObject>;
 	export let label: string | null = null;
 	export let name: string;
 	export let value: FormDataEntryValue | null | undefined = null;
-	export let error: string | null = null;
-	export let required: boolean = true;
 
 	let id = uniqueId('form-control-');
+
+	$: error = errors[name];
+	$: constraint = constraints[name];
 </script>
 
 <div>
@@ -21,7 +26,7 @@
 		{name}
 		{id}
 		bind:value
-		{required}
+		{...constraint}
 	/>
 	{#if error}
 		<p class="invalid-feedback">{error}</p>

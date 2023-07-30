@@ -6,13 +6,13 @@
 	"plugins": ["prettier-plugin-svelte"],
 	"pluginSearchDirs": ["."],
 	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
-  "importOrderSeparation": true,
-  "importOrder": [
-    "^react$",
-    "^[^\\.]*$",
-    "^((\\./)|(\\.\\./))+[^\\.]+$",
-    "^\\..*.css$",
-    "^(\\./)[^\\.]+.*$",
-    "^.*$"
-  ]
+	"importOrderSeparation": true,
+	"importOrder": [
+		"^react$",
+		"^[^\\.]*$",
+		"^((\\./)|(\\.\\./))+[^\\.]+$",
+		"^\\..*.css$",
+		"^(\\./)[^\\.]+.*$",
+		"^.*$"
+	]
 }

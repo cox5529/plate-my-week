@@ -1,22 +1,17 @@
 import { redirect, type Cookies } from '@sveltejs/kit';
-import admin from 'firebase-admin';
-import type { App } from 'firebase-admin/app';
-import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+	createUserWithEmailAndPassword,
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword
+} from 'firebase/auth';
+import { addDoc, doc, setDoc } from 'firebase/firestore';
 
 import { auth } from '../../firebase/authentication';
-import { getUser } from '../../firebase/users';
 import type { AppUser } from '../../models/entities/user';
-import type { Roles } from '../../models/enums/roles';
+import { Roles } from '../../models/enums/roles';
 import { getSecret } from '../secrets';
-
-let app: App = admin.apps.find((x) => x && x.name === '[DEFAULT]')!;
-const firebaseAdminKey = await getSecret('ADMIN_PRIVATE_KEY');
-if (!app && firebaseAdminKey) {
-	console.info(`Initializing firebase admin with a key ${firebaseAdminKey.length} characters long`);
-	app = admin.initializeApp({
-		credential: admin.credential.cert(JSON.parse(atob(firebaseAdminKey)))
-	});
-}
+import { adminAuth } from './firebase-admin';
+import { getUser, usersCollection } from './users';
 
 export const signIn = async (
 	email: string,
@@ -26,7 +21,7 @@ export const signIn = async (
 	const idToken = await result.user.getIdToken();
 
 	const cookieAge = 14 * 24 * 60 * 60 * 1000;
-	const cookie = await admin.auth(app).createSessionCookie(idToken, { expiresIn: cookieAge });
+	const cookie = await adminAuth.createSessionCookie(idToken, { expiresIn: cookieAge });
 
 	return {
 		cookie,
@@ -40,6 +35,19 @@ export const signIn = async (
 	};
 };
 
+export const register = async (
+	email: string,
+	password: string,
+	displayName: string
+): Promise<void> => {
+	const credential = await createUserWithEmailAndPassword(auth, email, password);
+	await setDoc(doc(usersCollection, credential.user.uid), {
+		id: credential.user.uid,
+		role: Roles.User,
+		name: displayName
+	});
+};
+
 export const forgotPassword = async (email: string): Promise<void> => {
 	await sendPasswordResetEmail(auth, email);
 };
@@ -49,7 +57,7 @@ export const signOut = async (request: { cookies: Cookies }): Promise<void> => {
 	request.cookies.delete('__session');
 
 	if (claims) {
-		await admin.auth(app).revokeRefreshTokens(claims.sub);
+		await adminAuth.revokeRefreshTokens(claims.sub);
 	}
 };
 
@@ -90,10 +98,10 @@ export const isAuthenticated = async (request: { cookies: Cookies }) => {
 	}
 
 	try {
-		const claims = await admin.auth(app).verifySessionCookie(cookie, true);
+		const claims = await adminAuth.verifySessionCookie(cookie, true);
 		return claims;
 	} catch (e) {
-		console.warn('Failed to verify session cookie', e);
+		console.warn('Failed to verify session cookie');
 		return false;
 	}
 };

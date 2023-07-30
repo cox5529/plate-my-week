@@ -1,10 +1,4 @@
 import { initializeApp } from 'firebase/app';
-import {
-	getFirestore,
-	type DocumentData,
-	type QueryDocumentSnapshot,
-	type FirestoreDataConverter
-} from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyB2MP1jtHfESqJ91GTPACQWZQeHAK4n2CQ',
@@ -16,16 +10,4 @@ const firebaseConfig = {
 	measurementId: 'G-N9M7BLKMSB'
 };
 
-export function assignTypes<T extends object>(): FirestoreDataConverter<T> {
-	return {
-		toFirestore(doc: T): DocumentData {
-			return doc;
-		},
-		fromFirestore(snapshot: QueryDocumentSnapshot): T {
-			return snapshot.data()! as T;
-		}
-	};
-}
-
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
