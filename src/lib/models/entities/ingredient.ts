@@ -1,4 +1,4 @@
-import type { Text, SchemaValue } from '../../schema';
+import type { Text, SchemaValue } from '../../recipe-seo-schema';
 import { parseThing, sanitizeString } from '../../utils/schema-import';
 import { PluralUnitMap, SingularUnitMap, UnitMap, Units, orderedUnits } from '../enums/units';
 
@@ -28,16 +28,20 @@ export const parseIngredients = (input: SchemaValue<Text> | undefined): Ingredie
 			return;
 		}
 
-		value = sanitizeString(value);
-		const [quantity, unit] = getQuantityAndUnits(value);
-		const instruction = getInstruction(value);
-		return {
-			quantity,
-			unit,
-			name: getName(value, instruction ?? ''),
-			instruction
-		};
+		return parseIngredientString(value);
 	});
+
+export const parseIngredientString = (value: string): Ingredient => {
+	value = sanitizeString(value);
+	const [quantity, unit] = getQuantityAndUnits(value);
+	const instruction = getInstruction(value);
+	return {
+		quantity,
+		unit,
+		name: getName(value, instruction ?? ''),
+		instruction
+	};
+};
 
 const getQuantityAndUnits = (ingredient: string): [number, Units] => {
 	ingredient = ingredient.toLowerCase().replace(/\(|\)/g, '');

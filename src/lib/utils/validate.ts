@@ -1,6 +1,6 @@
 import { Validator } from 'jsonschema';
 
-import type { Graph, Recipe } from '../schema';
+import type { Graph, Recipe } from '../recipe-seo-schema';
 
 import schema from '$lib/schemas/minimal-recipe.json';
 

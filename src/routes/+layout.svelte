@@ -32,6 +32,11 @@
 						<a class="nav-link" aria-current="page" href="/recipes/import">Import</a>
 					</li>
 				{/if}
+				{#if $authenticationStore}
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/recipes/create">Create</a>
+					</li>
+				{/if}
 			</ul>
 			<ul class="navbar-nav mb-2 mb-lg-0">
 				{#if $authenticationStore}

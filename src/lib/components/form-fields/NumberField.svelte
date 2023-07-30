@@ -7,6 +7,7 @@
 	type T = $$Generic<AnyZodObject>;
 	export let label: string | null = null;
 	export let name: FormPathLeaves<z.infer<T>>;
+	export let inline = false;
 	export let form: SuperForm<ZodValidation<T>, unknown>;
 
 	let id = uniqueId('form-control-');
@@ -14,15 +15,16 @@
 </script>
 
 <div>
-	{#if label}
+	{#if label && !inline}
 		<label for={id} class="form-label">{label}</label>
 	{/if}
 	<input
 		class="form-control"
-		type="password"
+		type="number"
 		class:is-invalid={!!$errors}
 		{name}
 		{id}
+		placeholder={label ?? ''}
 		bind:value={$value}
 		{...$constraints}
 	/>

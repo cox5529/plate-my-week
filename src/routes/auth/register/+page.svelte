@@ -8,9 +8,12 @@
 
 	export let data;
 
-	const { form, errors, constraints, enhance, submitting, message } = superForm(data.form, {
+	const form = superForm(data.form, {
 		taintedMessage: null
 	});
+
+	$: message = form.message;
+	$: submitting = form.submitting;
 </script>
 
 <svelte:head>
@@ -18,35 +21,11 @@
 </svelte:head>
 
 <h1>Sign up for Plate my week</h1>
-<form class="d-flex flex-column gap-4" method={'post'} use:enhance>
-	<EmailField
-		name="email"
-		label="Email Address"
-		bind:value={$form.email}
-		errors={$errors}
-		constraints={$constraints}
-	/>
-	<TextField
-		name="displayName"
-		label="Display Name"
-		bind:value={$form.displayName}
-		errors={$errors}
-		constraints={$constraints}
-	/>
-	<PasswordField
-		name="password"
-		label="Password"
-		bind:value={$form.password}
-		errors={$errors}
-		constraints={$constraints}
-	/>
-	<PasswordField
-		name="confirmPassword"
-		label="Confirm Password"
-		bind:value={$form.confirmPassword}
-		errors={$errors}
-		constraints={$constraints}
-	/>
+<form class="d-flex flex-column gap-4" method={'post'} use:form.enhance>
+	<EmailField name="email" label="Email Address" {form} />
+	<TextField name="displayName" label="Display Name" {form} />
+	<PasswordField name="password" label="Password" {form} />
+	<PasswordField name="confirmPassword" label="Confirm Password" {form} />
 	<div>
 		<FormButton color="primary" type="submit" submitting={$submitting}>Submit</FormButton>
 		<a class="btn btn-secondary" href="/auth/forgot-password">Forgot password?</a>

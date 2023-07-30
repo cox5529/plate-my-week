@@ -6,23 +6,19 @@
 
 	export let data;
 
-	const { form, errors, constraints, enhance, submitting } = superForm(data.form, {
+	const form = superForm(data.form, {
 		taintedMessage: null
 	});
+
+	$: submitting = form.submitting;
 </script>
 
 <svelte:head>
 	<title>Import | Plate my week</title>
 </svelte:head>
 
-<form class="d-flex flex-column gap-4" method={'post'} use:enhance>
-	<TextField
-		name="url"
-		label="Link to recipe"
-		bind:value={$form.url}
-		errors={$errors}
-		constraints={$constraints}
-	/>
+<form class="d-flex flex-column gap-4" method={'post'} use:form.enhance>
+	<TextField name="url" label="Link to recipe" {form} />
 	<div>
 		<FormButton color="primary" type="submit" submitting={$submitting}>Submit</FormButton>
 	</div>

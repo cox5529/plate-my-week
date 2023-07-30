@@ -1,4 +1,4 @@
-import type { IdReference, Organization, Person, SchemaValue } from '../../schema';
+import type { IdReference, Organization, Person, SchemaValue } from '../../recipe-seo-schema';
 import { parseStringsAsSingle, parseThing } from '../../utils/schema-import';
 
 export type ExternalAuthor = {

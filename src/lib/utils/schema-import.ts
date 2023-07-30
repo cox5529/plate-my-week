@@ -1,4 +1,4 @@
-import type { IdReference, ImageObject, SchemaValue } from '../schema';
+import type { IdReference, ImageObject, SchemaValue } from '../recipe-seo-schema';
 
 const replacementMap: Record<string, string> = {
 	'¼': ' 1/4 ',

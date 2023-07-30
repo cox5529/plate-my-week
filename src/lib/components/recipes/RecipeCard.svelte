@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AppRecipe } from '$lib/models/recipe';
+	import type { AppRecipe } from '$lib/models/entities/recipe';
 
 	import Card from '../Card.svelte';
 
@@ -26,5 +26,7 @@
 
 	<small>{categories}</small>
 	<h5 class="card-title">{recipe.headline}</h5>
-	<p>By {author}</p>
+	{#if author}
+		<p>By {author}</p>
+	{/if}
 </Card>

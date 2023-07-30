@@ -1,6 +1,6 @@
 
 import type { DocumentReference } from 'firebase-admin/firestore';
-import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../../schema';
+import type { ItemList, Recipe, Recipe as SchemaRecipe, SchemaValue } from '../../recipe-seo-schema';
 import { parseStrings, parseThing } from '../../utils/schema-import';
 import { parseStringsAsSingle } from './../../utils/schema-import';
 import { parseExternalAuthors, type ExternalAuthor } from './external-author';
@@ -11,7 +11,7 @@ import type { AppUser } from './user';
 
 export type AppRecipe = {
 	id: string | null;
-	owner: DocumentReference<AppUser> | null;
+	owner: string | null;
 	externalAuthors?: ExternalAuthor[];
 	cookTime: string | null;
 	prepTime: string | null;

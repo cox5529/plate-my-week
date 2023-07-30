@@ -6,9 +6,12 @@
 
 	export let data;
 
-	const { form, errors, constraints, enhance, message, submitting } = superForm(data.form, {
+	const form = superForm(data.form, {
 		taintedMessage: null
 	});
+
+	$: submitting = form.submitting;
+	$: message = form.message;
 </script>
 
 <svelte:head>
@@ -16,14 +19,8 @@
 </svelte:head>
 
 <h1>Forgot password</h1>
-<form class="d-flex flex-column gap-4" method={'post'} use:enhance>
-	<EmailField
-		name="email"
-		label="Email Address"
-		bind:value={$form.email}
-		errors={$errors}
-		constraints={$constraints}
-	/>
+<form class="d-flex flex-column gap-4" method={'post'} use:form.enhance>
+	<EmailField name="email" label="Email Address" {form} />
 	<div>
 		<FormButton color="primary" type="submit" submitting={$submitting}>Submit</FormButton>
 		<a class="btn btn-secondary" href="/auth/login">Cancel</a>

@@ -6,10 +6,9 @@ import { z } from 'zod';
 import { parseRecipe, type PageInfo } from '../../../lib/models/entities/recipe';
 import { Roles } from '../../../lib/models/enums/roles';
 import { rephraseDescription, rephraseSteps } from '../../../lib/openai/recipe';
-import type { Recipe } from '../../../lib/schema';
+import type { Recipe } from '../../../lib/recipe-seo-schema';
 import { verifyAuthentication } from '../../../lib/server/firebase/authentication';
 import { addRecipe } from '../../../lib/server/firebase/recipes';
-import { usersCollection } from '../../../lib/server/firebase/users';
 import { validateRecipes } from '../../../lib/utils/validate';
 
 const schema = z.object({
@@ -56,7 +55,7 @@ export const actions = {
 
 			parsedRecipe.description = rephrasedDescription;
 			parsedRecipe.sections = rephrasedSteps;
-			parsedRecipe.owner = usersCollection.doc(userInfo.id);
+			parsedRecipe.owner = userInfo.id;
 
 			id = await addRecipe(parsedRecipe);
 		}

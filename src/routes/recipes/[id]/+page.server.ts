@@ -1,9 +1,10 @@
 import { error } from '@sveltejs/kit';
 
-import { getRecipe } from '../../../lib/server/firebase/recipes.js';
 import type { AppRecipe } from '../../../lib/models/entities/recipe.js';
+import { getRecipe } from '../../../lib/server/firebase/recipes.js';
+import { getUser } from '../../../lib/server/firebase/users.js';
 
-export async function load(event): Promise<AppRecipe> {
+export async function load(event) {
 	const id = event.params.id;
 	const recipe = await getRecipe(id);
 
@@ -11,5 +12,7 @@ export async function load(event): Promise<AppRecipe> {
 		throw error(404);
 	}
 
-	return recipe;
+	const localAuthor = recipe.owner ? getUser(recipe.owner) : null;
+
+	return { recipe, localAuthor };
 }

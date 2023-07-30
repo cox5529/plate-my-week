@@ -1,18 +1,21 @@
 <script lang="ts">
 	import uniqueId from 'lodash/uniqueId';
-	import type { InputConstraints, ValidationErrors } from 'sveltekit-superforms';
-	import type { AnyZodObject } from 'zod';
+	import type {
+		FormPathLeaves,
+		InputConstraints,
+		ValidationErrors,
+		ZodValidation
+	} from 'sveltekit-superforms';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
+	import type { AnyZodObject, z } from 'zod';
 
-	export let constraints: InputConstraints<AnyZodObject>;
-	export let errors: ValidationErrors<AnyZodObject>;
+	type T = $$Generic<AnyZodObject>;
 	export let label: string | null = null;
-	export let name: string;
-	export let value: FormDataEntryValue | null | undefined = null;
+	export let name: FormPathLeaves<z.infer<T>>;
+	export let form: SuperForm<ZodValidation<T>, unknown>;
 
 	let id = uniqueId('form-control-');
-
-	$: error = errors[name];
-	$: constraint = constraints[name];
+	const { errors, constraints, value } = formFieldProxy(form, name);
 </script>
 
 <div>
@@ -22,13 +25,13 @@
 	<input
 		class="form-control"
 		type="email"
-		class:is-invalid={!!error}
+		class:is-invalid={!!$errors}
 		{name}
 		{id}
-		bind:value
-		{...constraint}
+		bind:value={$value}
+		{...$constraints}
 	/>
-	{#if error}
-		<p class="invalid-feedback">{error}</p>
+	{#if $errors}
+		<p class="invalid-feedback">{$errors}</p>
 	{/if}
 </div>
