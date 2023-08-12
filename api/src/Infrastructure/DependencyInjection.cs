@@ -8,6 +8,7 @@ using PlateMyWeek.Application.Common.Interfaces;
 using PlateMyWeek.Infrastructure.Data;
 using PlateMyWeek.Infrastructure.Data.Interceptors;
 using PlateMyWeek.Infrastructure.Identity;
+using DbContext = PlateMyWeek.Infrastructure.Data.DbContext;
 
 namespace PlateMyWeek.Infrastructure;
 
@@ -21,7 +22,7 @@ public static class DependencyInjection
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
 
-        services.AddDbContext<ApplicationDbContext>(
+        services.AddDbContext<DbContext>(
             (sp, options) =>
             {
                 options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
@@ -29,7 +30,7 @@ public static class DependencyInjection
                 options.UseNpgsql(connectionString);
             });
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IDbContext>(provider => provider.GetRequiredService<DbContext>());
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
@@ -39,7 +40,7 @@ public static class DependencyInjection
 
         services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<DbContext>()
                 .AddApiEndpoints();
 
         services.AddSingleton(TimeProvider.System);

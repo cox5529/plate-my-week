@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Respawn;
 using Testcontainers.MsSql;
+using DbContext = PlateMyWeek.Infrastructure.Data.DbContext;
 
 namespace PlateMyWeek.Application.FunctionalTests;
 
@@ -29,11 +30,11 @@ public class TestcontainersTestDatabase : ITestDatabase
 
         _connection = new SqlConnection(_connectionString);
 
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        var options = new DbContextOptionsBuilder<DbContext>()
             .UseSqlServer(_connectionString)
             .Options;
 
-        var context = new ApplicationDbContext(options);
+        var context = new DbContext(options);
 
         context.Database.Migrate();
 

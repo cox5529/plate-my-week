@@ -17,7 +17,7 @@ public static class DependencyInjection
 
         services.AddHttpContextAccessor();
 
-        services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+        services.AddHealthChecks().AddDbContextCheck<DbContext>();
 
         services.AddFastEndpoints();
         services.SwaggerDocument();

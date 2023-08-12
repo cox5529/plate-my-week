@@ -34,14 +34,14 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    public void UpdateEntities(DbContext? context)
+    public void UpdateEntities(Microsoft.EntityFrameworkCore.DbContext? context)
     {
         if (context == null)
         {
             return;
         }
 
-        foreach (EntityEntry<BaseAuditableEntity> entry in context.ChangeTracker.Entries<BaseAuditableEntity>())
+        foreach (EntityEntry<BaseAuditableEntity<object>> entry in context.ChangeTracker.Entries<BaseAuditableEntity<object>>())
         {
             if (entry.State == EntityState.Added)
             {

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using PlateMyWeek.Web;
+using DbContext = PlateMyWeek.Infrastructure.Data.DbContext;
 
 namespace PlateMyWeek.Application.FunctionalTests;
 
@@ -32,8 +33,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
 
             services
-                .RemoveAll<DbContextOptions<ApplicationDbContext>>()
-                .AddDbContext<ApplicationDbContext>((sp, options) =>
+                .RemoveAll<DbContextOptions<DbContext>>()
+                .AddDbContext<DbContext>((sp, options) =>
                 {
                     options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
                     options.UseSqlServer(_connection);

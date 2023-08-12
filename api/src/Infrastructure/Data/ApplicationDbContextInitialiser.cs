@@ -25,14 +25,14 @@ public static class InitialiserExtensions
 
 public class ApplicationDbContextInitialiser
 {
-    private readonly ApplicationDbContext _context;
+    private readonly DbContext _context;
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
     public ApplicationDbContextInitialiser(
         ILogger<ApplicationDbContextInitialiser> logger,
-        ApplicationDbContext context,
+        DbContext context,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {

@@ -3,7 +3,7 @@ using PlateMyWeek.Domain.Entities;
 
 namespace PlateMyWeek.Application.Common.Interfaces;
 
-public interface IApplicationDbContext
+public interface IDbContext
 {
     DbSet<T> Set<T>() where T : class;
 

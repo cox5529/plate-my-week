@@ -7,9 +7,9 @@ using PlateMyWeek.Infrastructure.Identity;
 
 namespace PlateMyWeek.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+public class DbContext : IdentityDbContext<ApplicationUser>, IDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public DbContext(DbContextOptions<DbContext> options)
         : base(options)
     {
     }
