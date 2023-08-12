@@ -1,81 +1,28 @@
-﻿using Azure.Identity;
+﻿using FastEndpoints;
+using FastEndpoints.Security;
+using FastEndpoints.Swagger;
+using Microsoft.AspNetCore.Mvc;
 using PlateMyWeek.Application.Common.Interfaces;
 using PlateMyWeek.Infrastructure.Data;
 using PlateMyWeek.Web.Services;
-using Microsoft.AspNetCore.Mvc;
+using PlateMyWeek.Web.Settings;
 
-using NSwag;
-using NSwag.Generation.Processors.Security;
-using ZymLabs.NSwag.FluentValidation;
-
-namespace Microsoft.Extensions.DependencyInjection;
+namespace PlateMyWeek.Web;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWebServices(this IServiceCollection services)
+    public static void AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDatabaseDeveloperPageExceptionFilter();
-
         services.AddScoped<IUser, CurrentUser>();
 
         services.AddHttpContextAccessor();
 
-        services.AddHealthChecks()
-            .AddDbContextCheck<ApplicationDbContext>();
+        services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
-        services.AddExceptionHandler<CustomExceptionHandler>();
+        services.AddFastEndpoints();
+        services.SwaggerDocument();
 
-        services.AddRazorPages();
-
-        services.AddScoped(provider =>
-        {
-            var validationRules = provider.GetService<IEnumerable<FluentValidationRule>>();
-            var loggerFactory = provider.GetService<ILoggerFactory>();
-
-            return new FluentValidationSchemaProcessor(provider, validationRules, loggerFactory);
-        });
-
-        // Customise default API behaviour
-        services.Configure<ApiBehaviorOptions>(options =>
-            options.SuppressModelStateInvalidFilter = true);
-
-        services.AddEndpointsApiExplorer();
-
-        services.AddOpenApiDocument((configure, sp) =>
-        {
-            configure.Title = "PlateMyWeek API";
-
-            // Add the fluent validations schema processor
-            var fluentValidationSchemaProcessor = 
-                sp.CreateScope().ServiceProvider.GetRequiredService<FluentValidationSchemaProcessor>();
-
-            configure.SchemaProcessors.Add(fluentValidationSchemaProcessor);
-
-            // Add JWT
-            configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
-            {
-                Type = OpenApiSecuritySchemeType.ApiKey,
-                Name = "Authorization",
-                In = OpenApiSecurityApiKeyLocation.Header,
-                Description = "Type into the textbox: Bearer {your JWT token}."
-            });
-
-            configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddKeyVaultIfConfigured(this IServiceCollection services, ConfigurationManager configuration)
-    {
-        var keyVaultUri = configuration["KeyVaultUri"];
-        if (!string.IsNullOrWhiteSpace(keyVaultUri))
-        {
-            configuration.AddAzureKeyVault(
-                new Uri(keyVaultUri),
-                new DefaultAzureCredential());
-        }
-
-        return services;
+        var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
+        services.AddJWTBearerAuth(jwtSettings!.Key);
     }
 }

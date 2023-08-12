@@ -1,52 +1,41 @@
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using PlateMyWeek.Application;
+using PlateMyWeek.Application.Common.Behaviours;
+using PlateMyWeek.Infrastructure;
 using PlateMyWeek.Infrastructure.Data;
+using PlateMyWeek.Web;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
-
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddWebServices();
-
-var app = builder.Build();
+builder.Services.AddWebServices(builder.Configuration);
 
 // Configure the HTTP request pipeline.
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
     await app.InitialiseDatabaseAsync();
 }
 else
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHttpsRedirection();
     app.UseHsts();
 }
 
+app.UseDefaultExceptionHandler();
 app.UseHealthChecks("/health");
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseSwaggerUi3(settings =>
-{
-    settings.Path = "/api";
-    settings.DocumentPath = "/api/specification.json";
-});
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapRazorPages();
-
-app.MapFallbackToFile("index.html");
-
-app.UseExceptionHandler(options => { });
-
-app.Map("/", () => Results.Redirect("/api"));
-
-app.MapEndpoints();
+app.UseAuthorization();
+app.UseFastEndpoints(
+    c =>
+    {
+        c.Endpoints.Configurator = ep =>
+        {
+            ep.PreProcessors(Order.Before, new LoggingPreprocessor());
+        };
+    });
+app.UseSwaggerGen();
 
 app.Run();
-
-public partial class Program { }

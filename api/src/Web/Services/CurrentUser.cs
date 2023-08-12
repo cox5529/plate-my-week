@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-
 using PlateMyWeek.Application.Common.Interfaces;
 
 namespace PlateMyWeek.Web.Services;

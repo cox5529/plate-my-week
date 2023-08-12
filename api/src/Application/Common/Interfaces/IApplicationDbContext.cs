@@ -1,12 +1,11 @@
-﻿using PlateMyWeek.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PlateMyWeek.Domain.Entities;
 
 namespace PlateMyWeek.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
-
-    DbSet<TodoItem> TodoItems { get; }
+    DbSet<T> Set<T>() where T : class;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
