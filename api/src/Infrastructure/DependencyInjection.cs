@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlateMyWeek.Application.Common.Interfaces;
 using PlateMyWeek.Application.Common.Interfaces.Repositories;
 using PlateMyWeek.Application.Common.Interfaces.Services;
 using PlateMyWeek.Infrastructure.Data;

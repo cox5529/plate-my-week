@@ -4,7 +4,12 @@ namespace PlateMyWeek.Application.Common.Models.PaginatedList;
 
 public class PaginatedList<T>
 {
-    public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
+    public PaginatedList()
+    {
+        Items = new List<T>();
+    }
+
+    public PaginatedList(ICollection<T> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -12,13 +17,13 @@ public class PaginatedList<T>
         Items = items;
     }
 
-    public IReadOnlyCollection<T> Items { get; }
+    public ICollection<T> Items { get; set; }
 
-    public int PageNumber { get; }
+    public int PageNumber { get; set; }
 
-    public int TotalPages { get; }
+    public int TotalPages { get; set; }
 
-    public int TotalCount { get; }
+    public int TotalCount { get; set; }
 
     public bool HasPreviousPage => PageNumber > 1;
 
