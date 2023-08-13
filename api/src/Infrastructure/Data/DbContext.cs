@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlateMyWeek.Application.Common.Interfaces;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 using PlateMyWeek.Domain.Entities;
 using PlateMyWeek.Infrastructure.Identity;
 

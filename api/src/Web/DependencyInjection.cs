@@ -1,11 +1,8 @@
 ﻿using FastEndpoints;
-using FastEndpoints.Security;
 using FastEndpoints.Swagger;
-using Microsoft.AspNetCore.Mvc;
-using PlateMyWeek.Application.Common.Interfaces;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 using PlateMyWeek.Infrastructure.Data;
 using PlateMyWeek.Web.Services;
-using PlateMyWeek.Web.Settings;
 
 namespace PlateMyWeek.Web;
 
@@ -21,8 +18,5 @@ public static class DependencyInjection
 
         services.AddFastEndpoints();
         services.SwaggerDocument();
-
-        var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
-        services.AddJWTBearerAuth(jwtSettings!.Key);
     }
 }

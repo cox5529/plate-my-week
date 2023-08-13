@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 using PlateMyWeek.Web;
 using DbContext = PlateMyWeek.Infrastructure.Data.DbContext;
 

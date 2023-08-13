@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PlateMyWeek.Domain.Entities;
 
-namespace PlateMyWeek.Application.Common.Interfaces;
+namespace PlateMyWeek.Application.Common.Interfaces.Services;
 
 public interface IDbContext
 {

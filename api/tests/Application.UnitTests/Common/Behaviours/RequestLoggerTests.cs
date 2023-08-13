@@ -4,6 +4,7 @@ using PlateMyWeek.Application.TodoItems.Commands.CreateTodoItem;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 
 namespace PlateMyWeek.Application.UnitTests.Common.Behaviours;
 

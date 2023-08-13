@@ -1,4 +1,4 @@
-﻿namespace PlateMyWeek.Application.Common.Interfaces;
+﻿namespace PlateMyWeek.Application.Common.Interfaces.Services;
 
 public interface IUser
 {

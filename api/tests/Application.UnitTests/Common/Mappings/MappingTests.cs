@@ -7,6 +7,7 @@ using PlateMyWeek.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using PlateMyWeek.Application.TodoLists.Queries.GetTodos;
 using PlateMyWeek.Domain.Entities;
 using NUnit.Framework;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 
 namespace PlateMyWeek.Application.UnitTests.Common.Mappings;
 

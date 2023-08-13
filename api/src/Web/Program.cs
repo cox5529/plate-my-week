@@ -31,9 +31,15 @@ app.UseAuthorization();
 app.UseFastEndpoints(
     c =>
     {
+        c.Endpoints.RoutePrefix = "api";
         c.Endpoints.Configurator = ep =>
         {
             ep.PreProcessors(Order.Before, new LoggingPreprocessor());
+
+            if (ep.Verbs != null && !ep.Verbs.Contains("GET"))
+            {
+                ep.Description(b => b.ClearDefaultProduces(200));
+            }
         };
     });
 app.UseSwaggerGen();

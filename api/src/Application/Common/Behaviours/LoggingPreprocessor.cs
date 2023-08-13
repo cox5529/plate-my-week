@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using PlateMyWeek.Application.Common.Interfaces;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 
 namespace PlateMyWeek.Application.Common.Behaviours;
 

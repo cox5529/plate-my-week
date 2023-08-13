@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using PlateMyWeek.Application.Common.Interfaces;
+using PlateMyWeek.Application.Common.Interfaces.Services;
 using PlateMyWeek.Domain.Common;
 
 namespace PlateMyWeek.Infrastructure.Data.Interceptors;
