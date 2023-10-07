@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>PlateMyWeek.Domain</RootNamespace>
+        <AssemblyName>PlateMyWeek.Domain</AssemblyName>
+    </PropertyGroup>
+
+
+
+    <ItemGroup>
+      <Folder Include="Enums\" />
+      <Folder Include="Events\" />
+      <Folder Include="Exceptions\" />
+      <Folder Include="ValueObjects\" />
+    </ItemGroup>
+
+</Project>

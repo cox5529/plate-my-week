@@ -1,38 +1,6 @@
-# create-svelte
+# Plate My Week
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[Plate My Week](https://plate.bscox.com) is a recipe website capable of importing recipes from external sites. It does this by parsing SEO tags contained on a supplied link, similarly to how Google and other search engines do. It will then rephrase the recipe using ChatGPT in order to reformat the recipes in a way that's easier for me to read and understand.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Usage
+To use Plate My Week, simply navigate to the website (linked above). You can click around and look at a few of the imported recipes. If you create an account, you can also create your own recipes. Note that only certain accounts have permissions to import recipes from external sites in order to avoid costly ChatGPT bills.
